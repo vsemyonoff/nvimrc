@@ -12,7 +12,7 @@ function M.get_config(name)
 end
 
 function M.pkg_config(name)
-    return string.format("require('%s')", M.get_config(name))
+    return string.format("require('utils').include('%s')", M.get_config(name))
 end
 
 function M.find_module(name)
