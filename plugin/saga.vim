@@ -1,10 +1,3 @@
-lua << EOF
-
-local saga = require 'lspsaga'
-saga.init_lsp_saga()
-
-EOF
-
 nnoremap <silent><leader>clf :Lspsaga lsp_finder<CR>
 nnoremap <silent><leader>cca :Lspsaga code_action<CR>
 vnoremap <silent><leader>cca :<C-U>Lspsaga range_code_action<CR>

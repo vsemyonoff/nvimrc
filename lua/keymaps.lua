@@ -1,4 +1,9 @@
 local utils = require('utils')
+local map = utils.map
+
+-- Map leader to space
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ','
 
 utils.map('n', '<C-l>', '<cmd>noh<CR>') -- Clear highlights
 utils.map('i', 'jk', '<Esc>') -- jk to escape
@@ -12,8 +17,8 @@ utils.map('t', '<C-w><C-o>', '<C-\\><C-n> :MaximizerToggle!<CR>')
 utils.map('t', '<C-h>', '<C-\\><C-n><C-w>h')
 utils.map('t', '<C-j>', '<C-\\><C-n><C-w>j')
 utils.map('t', '<C-k>', '<C-\\><C-n><C-w>k')
-utils.map('t', '<C-l>', '<C-\\><C-n><C-w>l')
-utils.map('t', 'jk', '<C-\\><C-n>')
+map('t', '<C-l>', '<C-\\><C-n><C-w>l')
+map('t', 'jk', '<C-\\><C-n>')
 
 utils.map('n', '<Leader>bc', '<Cmd>bd<CR>')
 utils.map('n', '<Leader>bn', '<Cmd>bn<CR>')

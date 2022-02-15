@@ -1,4 +1,4 @@
--- local utils = require('utils')
+local pkg_config = require('utils').pkg_config
 -- local this, this_path = ...
 
 local M = {{
@@ -12,18 +12,18 @@ local M = {{
     },
 
     -- Completion
-    {'hrsh7th/nvim-compe'},
+    { 'hrsh7th/nvim-compe' },
 
     -- Icons & color scheme
-    {'kyazdani42/nvim-web-devicons'},
-    {'joshdick/onedark.vim'},
+    { 'kyazdani42/nvim-web-devicons', config = pkg_config('devicons') },
+    { 'joshdick/onedark.vim', config = pkg_config('colorscheme') },
 
     -- CMake integration
     { 'cdelledonne/vim-cmake' },
 
     -- Development
     {'tpope/vim-dispatch'},
-    {'tpope/vim-fugitive'},
+    { 'tpope/vim-fugitive', config = pkg_config('fugitive') },
     {'tpope/vim-surround'},
     {'tpope/vim-commentary'},
     {'tpope/vim-rhubarb'},
@@ -32,7 +32,7 @@ local M = {{
     {'wellle/targets.vim'},
     {'easymotion/vim-easymotion'},
     {'liuchengxu/vim-which-key'},
-    {'norcalli/nvim-colorizer.lua'},
+    { 'norcalli/nvim-colorizer.lua', config = pkg_config('colorizer') },
     {
         'lewis6991/gitsigns.nvim',
         config = function() require('gitsigns').setup() end
@@ -54,7 +54,7 @@ local M = {{
     -- Telescope
     {'nvim-lua/plenary.nvim'},
     {'nvim-lua/popup.nvim'},
-    {'nvim-telescope/telescope.nvim'},
+    { 'nvim-telescope/telescope.nvim', config = pkg_config('telescope') },
     {
         'nvim-telescope/telescope-frecency.nvim',
         requires = {'tami5/sql.nvim'},
@@ -76,7 +76,7 @@ local M = {{
     -- { 'nvim-lua/completion-nvim' },
 
     -- Better LSP experience
-    {'glepnir/lspsaga.nvim'},
+    { 'glepnir/lspsaga.nvim', config = pkg_config('lspsaga') },
     {'onsails/lspkind-nvim'},
     {'sbdchd/neoformat'},
     {'p00f/nvim-ts-rainbow'},
@@ -111,7 +111,7 @@ local M = {{
     -- {'tjdevries/nlua.nvim'},
 
     -- Better syntax
-    {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'},
+    { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = pkg_config('treesitter') },
     {'nvim-treesitter/playground'},
 
     -- Dashboard
@@ -135,7 +135,7 @@ local M = {{
     {'nvim-telescope/telescope-fzy-native.nvim'},
 
     -- Project
-    {'nvim-telescope/telescope-project.nvim'},
+    { 'nvim-telescope/telescope-project.nvim', config = pkg_config('project') },
     {'airblade/vim-rooter'},
     {'tpope/vim-projectionist'},
 
@@ -214,8 +214,8 @@ local M = {{
 -- Packer options itself
 M['config'] = {
     -- ensure_dependencies   = true, -- Should packer install plugin dependencies?
-    -- package_root   = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack'),
-    compile_path = vim.fn.stdpath('config') .. '/plugin/packer.lua',
+    -- package_root   = join_paths(stdpath('data'), 'site', 'pack'),
+    -- compile_path = join_paths(stdpath 'config', 'plugin', 'packer_compiled.lua'),
     -- plugin_package = 'packer', -- The default package for plugins
     -- max_jobs = nil, -- Limit the number of simultaneous jobs. nil means no limit
     -- auto_clean = true, -- During sync(), remove unused plugins
