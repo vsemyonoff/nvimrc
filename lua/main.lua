@@ -7,25 +7,16 @@ include('settings')
 include('keymaps')
 
 -- LSP
-require('lang')
+include('lang')
 
 -- DAP
 -- require('dbg')
 
--- nvim-compe
-require('config/compe')
-
 -- lspkind-nvim
-require('config/lspkind')
+include('config/lspkind')
 
 -- nvim-lightbulb
 -- require('config/lightbulb')
 
 -- snippets.nvim
 -- require('config/snippets')
-
--- completion-nvim
--- require('config/completion')
-
--- vim-slime
-require('config/slime')
