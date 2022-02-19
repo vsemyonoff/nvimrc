@@ -11,12 +11,3 @@ include('lang')
 
 -- DAP
 -- require('dbg')
-
--- lspkind-nvim
-include('config/lspkind')
-
--- nvim-lightbulb
--- require('config/lightbulb')
-
--- snippets.nvim
--- require('config/snippets')

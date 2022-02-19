@@ -1,5 +1,4 @@
---local utils = require('utils')
-
+-- local utils = require('utils')
 local cmd = vim.cmd
 local set = vim.opt
 local indent = 4
@@ -19,8 +18,9 @@ set.shiftround = true
 set.smartcase = true
 set.splitbelow = true
 set.splitright = true
-set.wildmode = 'list:longest'
+set.wildmode = { 'longest', 'list', 'full' }
 set.number = true
+set.showmode = false
 -- set.relativenumber = true
 set.scrolloff = 8
 set.cursorline = true
@@ -33,7 +33,7 @@ vim.cmd 'au TextYankPost * lua vim.highlight.on_yank {on_visual = false}'
 vim.api.nvim_exec([[
 augroup auto_fmt
     autocmd!
-    autocmd BufWritePre *.py,*.lua undojoin | Neoformat
+    autocmd BufWritePre *.lua lua vim.lsp.buf.formatting_sync()
 aug END
 ]], false)
 
