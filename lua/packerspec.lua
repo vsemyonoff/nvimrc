@@ -8,7 +8,6 @@ local M = {
         { 'windwp/nvim-autopairs', config = pkg_config('autopairs') },
         {
             'hrsh7th/nvim-cmp',
-            after = 'nvim-autopairs',
             requires = {
                 "hrsh7th/cmp-buffer",
                 "hrsh7th/cmp-nvim-lsp",
@@ -18,6 +17,7 @@ local M = {
                 'hrsh7th/cmp-calc',
                 'f3fora/cmp-spell',
                 'hrsh7th/cmp-emoji',
+                'dcampos/nvim-snippy',
             },
             config = pkg_config('cmp'),
         },
@@ -27,7 +27,9 @@ local M = {
         { 'joshdick/onedark.vim', config = pkg_config('colorscheme') },
 
         -- CMake integration
-        { 'cdelledonne/vim-cmake' }, -- Development
+        { 'cdelledonne/vim-cmake' },
+
+        -- Development
         { 'tpope/vim-dispatch' },
         { 'tpope/vim-fugitive', config = pkg_config('fugitive') },
         { 'tpope/vim-surround' },
@@ -50,13 +52,26 @@ local M = {
         { 'vim-test/vim-test' },
         -- { 'rcarriga/vim-ultest", run = ":UpdateRemotePlugins' },
 
+        {
+            "folke/trouble.nvim",
+            requires = "kyazdani42/nvim-web-devicons",
+            config = pkg_config('trouble'),
+        },
+
         -- Telescope
         { 'nvim-lua/plenary.nvim' },
         { 'nvim-lua/popup.nvim' },
         { 'nvim-telescope/telescope.nvim', config = pkg_config('telescope') },
-        { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sql.nvim' }, config = pkg_config('frecency') },
+        {
+            'nvim-telescope/telescope-frecency.nvim',
+            requires = { 'tami5/sql.nvim' },
+            config = pkg_config('frecency'),
+        },
         { 'nvim-telescope/telescope-symbols.nvim' },
-        -- { 'nvim-telescope/telescope-arecibo.nvim', rocks = {"openssl", "lua-http-parser"} },
+        -- {
+        --     'nvim-telescope/telescope-arecibo.nvim',
+        --     rocks = {"openssl", "lua-http-parser"}
+        -- },
         -- { 'nvim-telescope/telescope-media-files.nvim' },
         -- { 'nvim-telescope/telescope-packer.nvim ' },
 
@@ -83,7 +98,11 @@ local M = {
         -- { 'kosayoda/nvim-lightbulb' },
 
         -- Snippets
-        { 'dcampos/nvim-snippy', requires = { 'dcampos/cmp-snippy' }, config = pkg_config('snippy') },
+        {
+            'dcampos/nvim-snippy',
+            requires = { 'dcampos/cmp-snippy' },
+            config = pkg_config('snippy'),
+        },
         { 'honza/vim-snippets' },
         -- { 'nvim-telescope/telescope-snippets.nvim' },
 
@@ -91,7 +110,11 @@ local M = {
         -- { 'tjdevries/nlua.nvim' },
 
         -- Better syntax
-        { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = pkg_config('treesitter') },
+        {
+            'nvim-treesitter/nvim-treesitter',
+            run = ':TSUpdate',
+            config = pkg_config('treesitter'),
+        },
         { 'nvim-treesitter/playground' },
 
         -- Dashboard
@@ -113,7 +136,10 @@ local M = {
         { 'nvim-telescope/telescope-fzy-native.nvim' },
 
         -- Project
-        { 'nvim-telescope/telescope-project.nvim', config = pkg_config('project') },
+        {
+            'nvim-telescope/telescope-project.nvim',
+            config = pkg_config('project'),
+        },
         { 'airblade/vim-rooter' },
         { 'tpope/vim-projectionist' },
 
