@@ -12,7 +12,13 @@ lualib['/usr/share/awesome/lib'] = true
 nvim_lsp.sumneko_lua.setup {
     cmd = { "/usr/bin/lua-language-server" },
     capabilities = common.capabilities,
-    on_attach = common.on_attach,
+    on_attach = function(client, bufnr)
+        -- disable formatting by 'sumneko_lua'
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+        -- continue as usual
+        common.on_attach(client, bufnr)
+    end,
     settings = {
         Lua = {
             runtime = {
@@ -38,11 +44,13 @@ nvim_lsp.efm.setup {
     filetypes = { 'lua' },
     -- LuaFormatter off
     on_attach = function(_, _)
-        utils.bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>', { noremap = true })
+        utils.bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
     end,
     -- LuaFormatter on
     settings = {
         rootMarkers = { ".git/" },
-        languages = { lua = { { formatCommand = "lua-format -i", formatStdin = true } } },
+        languages = {
+            lua = { { formatCommand = "lua-format -i", formatStdin = true } },
+        },
     },
 }

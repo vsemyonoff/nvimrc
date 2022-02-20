@@ -1,6 +1,6 @@
 local utils = require('utils')
 local setlocal = vim.opt_local
-local bnmap = function(lhs, rhs) utils.bnmap(lhs, rhs, { noremap = true }) end
+local bnmap = utils.bnmap
 
 local on_attach = function(client, _)
     require('lsp_signature').on_attach(client)
@@ -17,11 +17,13 @@ local on_attach = function(client, _)
     bnmap(']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
     bnmap('<leader>law', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>')
     bnmap('<leader>lrw', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>')
-    bnmap('<leader>llw', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
+    bnmap('<leader>llw',
+          '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>')
     bnmap('<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
     bnmap('<leader>lrn', '<cmd>lua vim.lsp.buf.rename()<CR>')
     bnmap('<leader>lrf', '<cmd>lua vim.lsp.buf.references()<CR>')
-    bnmap('<leader>ld', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
+    bnmap('<leader>ld',
+          '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>')
     bnmap('<leader>ll', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>')
     bnmap('<leader>lca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
 

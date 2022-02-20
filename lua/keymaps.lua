@@ -29,10 +29,10 @@ nmap('<Leader>bl', '<cmd>ls<CR>')
 vmap('<', '<gv')
 vmap('>', '>gv')
 
-nmap('<M-left>', '<C-w>>', {noremap = true, silent = true})
-nmap('<M-right>', '<C-w><', {noremap = true, silent = true})
-nmap('<M-up>', '<C-w>+', {noremap = true, silent = true})
-nmap('<M-down>', '<C-w>-', {noremap = true, silent = true})
+nmap('<M-left>', '<C-w>>')
+nmap('<M-right>', '<C-w><')
+nmap('<M-up>', '<C-w>+')
+nmap('<M-down>', '<C-w>-')
 
 vim.api.nvim_exec([[
 cnoreabbrev W! w!

@@ -7,7 +7,8 @@ M.create_augroups = function(definitions)
         vim.api.nvim_command('augroup ' .. group_name)
         vim.api.nvim_command('autocmd!')
         for _, def in ipairs(definition) do
-            local command = table.concat(vim.tbl_flatten { 'autocmd', def }, ' ')
+            local command =
+                table.concat(vim.tbl_flatten { 'autocmd', def }, ' ')
             vim.api.nvim_command(command)
         end
         vim.api.nvim_command('augroup END')
@@ -47,7 +48,7 @@ M.include = function(name)
 end
 
 local _map_impl = function(mode, lhs, rhs, opts)
-    local options = { noremap = false, silent = true }
+    local options = { noremap = true, silent = true }
     local buffer = false
 
     -- Parse options
