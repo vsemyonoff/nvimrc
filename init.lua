@@ -37,18 +37,17 @@ if not haspacker then
         -- Install Packer as optional to allow 'packadd' usage, it will be
         -- moved to 'start' after first sync automatically
         path = stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
-        url = 'https://github.com/wbthomason/packer.nvim'
+        url = 'https://github.com/wbthomason/packer.nvim',
     }
 
     local handle
     handle = vim.loop.spawn('git', {
-        args = {'clone', '--depth', '1', setup.url, setup.path}
+        args = { 'clone', '--depth', '1', setup.url, setup.path },
     }, vim.schedule_wrap(function(code, _)
         handle:close()
         if code ~= 0 then
-            error(
-                "[error]: packer setup failed ('git clone failed with code " ..
-                    code .. "')")
+            error("[error]: packer setup failed ('git clone failed with code "
+                      .. code .. "')")
         end
         vim.cmd('packadd packer.nvim')
         packer = require('packer')
@@ -85,7 +84,7 @@ aucmd.reload_main = string.format([[lua
 
 utils.create_augroups({
     PackerUserSetup = {
-        {"BufWritePost", packerspec .. ".lua", aucmd.resync_packer},
-        {"User", "PackerComplete", aucmd.reload_main}
-    }
+        { "BufWritePost", packerspec .. ".lua", aucmd.resync_packer },
+        { "User", "PackerComplete", aucmd.reload_main },
+    },
 })
