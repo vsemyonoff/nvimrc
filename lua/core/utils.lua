@@ -26,8 +26,7 @@ local get_config = function(name)
 end
 
 M.pkg_config = function(name)
-    local fmt = "require('utils').include('%s')"
-    -- return string.format(fmt, get_config(name))
+    local fmt = "require('core/utils').include('%s')"
     return fmt:format(get_config(name))
 end
 
@@ -47,25 +46,18 @@ M.include = function(name)
     return dofile(filename)
 end
 
+M.pkg_include = function(name) return M.include(get_config(name)) end
+
 local _map_impl = function(mode, lhs, rhs, opts)
     local options = { noremap = true, silent = true }
-    local buffer = false
 
     -- Parse options
     if opts then
-        if opts.buffer then
-            buffer = opts.buffer
-            opts.buffer = nil
-        end
         options = vim.tbl_extend('force', options, opts)
     end
 
     -- Apply mapping
-    if buffer then
-        vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, options)
-    else
-        vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-    end
+    vim.keymap.set(mode, lhs, rhs, options)
 end
 
 local _buf_map_impl = function(mode, lhs, rhs, opts)

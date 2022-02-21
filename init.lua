@@ -1,30 +1,30 @@
-local utils = require('utils')
+local utils = require('core/utils')
 local include = utils.include
+local config = include('config')
 local stdpath = vim.fn.stdpath
 
--- '/lua/packerspec.lua' default packer spec file
-local packerspec = 'packerspec'
+local packer_config = function()
+    local user_config = {
+        auto_clean = true,
+        auto_reload_compiled = true,
+        compile_on_sync = true,
+        compile_path = string.format("%s/lua/loaders.lua", stdpath('config')),
+    }
 
--- '/lua/main.lua' default setup entry point
-local maincfg = 'main'
-
--- Force some settings to ensure that all works as expected
-local force_user_config = function(user_config)
-    if not user_config.compile_path then
-        -- Will load lazy-loaders manually, so puth them in
-        -- /lua/loaders.lua (can be overriden in 'packerspec')
-        local new_path = string.format("%s/lua/loaders.lua", stdpath('config'))
-        user_config.compile_path = new_path
-    end
-    user_config.auto_reload_compiled = true
-    user_config.compile_on_sync = true
+    return vim.tbl_deep_extend('keep', user_config,
+                               config.packer.user_config or {})
 end
 
--- Start/ReStart Packer helper
-PackerStartup = function(packer, spec)
-    force_user_config(spec.config)
-    packer.startup(spec)
+-- Start/restart packer
+PackerStartup = function(packer)
+    local user_config = packer_config()
+    local spec = include(config.packer.spec)
+    packer.startup({ spec, config = user_config })
+    return user_config
 end
+
+-- Start/restart main config
+MainStartup = function() include(config.main) end
 
 -- Install/configure Packer
 local haspacker, packer = pcall(require, 'packer')
@@ -33,12 +33,7 @@ if not haspacker then
         error("[error]: packer setup failed ('git not installed')")
     end
 
-    local setup = {
-        -- Install Packer as optional to allow 'packadd' usage, it will be
-        -- moved to 'start' after first sync automatically
-        path = stdpath('data') .. '/site/pack/packer/opt/packer.nvim',
-        url = 'https://github.com/wbthomason/packer.nvim',
-    }
+    local setup = config.packer.setup
 
     local handle
     handle = vim.loop.spawn('git', {
@@ -51,40 +46,41 @@ if not haspacker then
         end
         vim.cmd('packadd packer.nvim')
         packer = require('packer')
-        PackerStartup(packer, include(packerspec))
+        PackerStartup(packer)
         packer.sync()
     end))
 else
-    local spec = include(packerspec)
-    PackerStartup(packer, spec)
-    include(maincfg)
+    local user_config = PackerStartup(packer)
+    MainStartup()
 
     -- Compile packer's lazy-loaders
-    local _, loaders, _ = utils.split_path(spec.config.compile_path)
+    local _, loaders, _ = utils.split_path(user_config.compile_path)
     local hasloaders, _ = pcall(include, loaders)
     if not hasloaders then
         packer.compile()
-    else
-        include(loaders)
     end
 end
 
 -- Packer related autocommands
 local aucmd = {}
-aucmd.resync_packer = string.format([[lua
-    local spec = require('utils').include('%s')
+aucmd.resync_packer = [[lua
     local packer = require('packer')
-    PackerStartup(packer, spec)
+    PackerStartup(packer)
     packer.sync()
-]], packerspec)
+]]
 
-aucmd.reload_main = string.format([[lua
-    require('utils').include('%s')
-]], maincfg)
+aucmd.reload_main = [[lua
+    MainStartup()
+]]
 
 utils.create_augroups({
     PackerUserSetup = {
-        { "BufWritePost", packerspec .. ".lua", aucmd.resync_packer },
+        { "BufWritePost", config.packer.spec .. ".lua", aucmd.resync_packer },
+        {
+            "FileType",
+            "packer",
+            "setlocal nonumber norelativenumber signcolumn=no",
+        },
         { "User", "PackerComplete", aucmd.reload_main },
     },
 })

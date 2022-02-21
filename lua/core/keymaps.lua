@@ -1,9 +1,9 @@
-local utils = require('utils')
+local utils = require('core/utils')
 local nmap, imap, tmap, vmap = utils.nmap, utils.imap, utils.tmap, utils.vmap
 
 -- Map leader to space
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
+-- vim.g.maplocalleader = ','
 
 nmap('<C-l>', '<cmd>noh<CR>') -- clear highlights
 nmap('<Leader>tt', '<cmd>15sp +term<CR>')
@@ -35,18 +35,17 @@ nmap('<M-up>', '<C-w>+')
 nmap('<M-down>', '<C-w>-')
 
 vim.api.nvim_exec([[
-cnoreabbrev W! w!
-cnoreabbrev Q! q!
-cnoreabbrev Qall! qall!
-cnoreabbrev Wq wq
-cnoreabbrev Wa wa
-cnoreabbrev wQ wq
-cnoreabbrev WQ wq
-cnoreabbrev W w
-cnoreabbrev Q q
-cnoreabbrev Qall qall
+    cnoreabbrev W! w!
+    cnoreabbrev Q! q!
+    cnoreabbrev Qall! qall!
+    cnoreabbrev Wq wq
+    cnoreabbrev Wa wa
+    cnoreabbrev wQ wq
+    cnoreabbrev WQ wq
+    cnoreabbrev W w
+    cnoreabbrev Q q
+    cnoreabbrev Qall qall
 
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
+    cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 ]], false)
 

@@ -83,7 +83,6 @@ require("neo-tree").setup({
                 ["<2-LeftMouse>"] = "open",
                 ["<cr>"] = "open",
                 ["<Left>"] = "close_node",
-                ["<Right>"] = "open",
                 ["S"] = "open_split",
                 ["s"] = "open_vsplit",
                 ["<bs>"] = "navigate_up",
@@ -106,7 +105,6 @@ require("neo-tree").setup({
                 ["<2-LeftMouse>"] = "open",
                 ["<cr>"] = "open",
                 ["<Left>"] = "close_node",
-                ["<Right>"] = "open",
                 ["S"] = "open_split",
                 ["s"] = "open_vsplit",
                 ["C"] = "close_node",
@@ -128,4 +126,4 @@ require("neo-tree").setup({
     },
 })
 
-require('utils').nmap('\\', '<cmd>NeoTreeRevealToggle<cr>')
+require('core/utils').nmap('\\', '<cmd>NeoTreeRevealToggle<cr>')

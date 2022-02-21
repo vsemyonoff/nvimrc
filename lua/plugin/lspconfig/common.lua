@@ -1,6 +1,6 @@
-local utils = require('utils')
+local utils = require('core/utils')
 local setlocal = vim.opt_local
-local bnmap = utils.bnmap
+local bnmap, bvmap = utils.bnmap, utils.bvmap
 
 local on_attach = function(client, _)
     require('lsp_signature').on_attach(client)
@@ -31,15 +31,16 @@ local on_attach = function(client, _)
     if client.resolved_capabilities.document_formatting then
         bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
     elseif client.resolved_capabilities.document_range_formatting then
-        bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
+        bvmap('<leader>lf', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
     end
+
+    -- hi LspReferenceRead cterm=bold ctermbg=red guibg=LightGrey
+    -- hi LspReferenceText cterm=bold ctermbg=red guibg=LightGrey
+    -- hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightGrey
 
     -- Set autocommands conditional on server_capabilities
     if client.resolved_capabilities.document_highlight then
         vim.api.nvim_exec([[
-            hi LspReferenceRead cterm=bold ctermbg=red guibg=LightGrey
-            hi LspReferenceText cterm=bold ctermbg=red guibg=LightGrey
-            hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightGrey
             augroup lsp_document_highlight
                 autocmd! * <buffer>
                 autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()

@@ -1,6 +1,6 @@
-local utils = require('utils')
-local nvim_lsp = require('lspconfig')
-local common = utils.include('lang/common')
+local include = require('core/utils').pkg_include
+local lsp = require('lspconfig')
+local common = include('lspconfig/common')
 
 local rtpath = vim.split(package.path, ';')
 table.insert(rtpath, "lua/?.lua")
@@ -9,14 +9,12 @@ table.insert(rtpath, "lua/?/init.lua")
 local lualib = vim.api.nvim_get_runtime_file("", true)
 lualib['/usr/share/awesome/lib'] = true
 
-nvim_lsp.sumneko_lua.setup {
+lsp.sumneko_lua.setup {
     cmd = { "/usr/bin/lua-language-server" },
     capabilities = common.capabilities,
     on_attach = function(client, bufnr)
-        -- disable formatting by 'sumneko_lua'
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
-        -- continue as usual
         common.on_attach(client, bufnr)
     end,
     settings = {
@@ -37,20 +35,24 @@ nvim_lsp.sumneko_lua.setup {
             telemetry = { enable = false },
         },
     },
+    flags = { debounce_text_changes = 150 },
 }
 
-nvim_lsp.efm.setup {
+lsp.efm.setup {
     init_options = { documentFormatting = true },
     filetypes = { 'lua' },
     -- LuaFormatter off
     on_attach = function(_, _)
-        utils.bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+        require('core/utils').bnmap('<leader>lf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
     end,
     -- LuaFormatter on
     settings = {
         rootMarkers = { ".git/" },
         languages = {
-            lua = { { formatCommand = "lua-format -i", formatStdin = true } },
+            lua = {
+                { formatCommand = "lua-format --in-place", formatStdin = true },
+            },
         },
     },
+    flags = { debounce_text_changes = 150 },
 }

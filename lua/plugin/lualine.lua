@@ -1,7 +1,7 @@
 require('lualine').setup {
     options = {
-        theme = 'onedark',
-        disabled_filetypes = { 'neo-tree' },
+        theme = 'nightfox',
+        disabled_filetypes = { 'NvimTree', 'packer', 'dashboard' },
         section_separators = '',
         component_separators = '',
     },

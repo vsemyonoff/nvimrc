@@ -1,4 +1,4 @@
-local nmap = require('utils').nmap
+local nmap = require('core/utils').nmap
 
 nmap('<Leader>gs', '<cmd>Gstatus<CR>')
 nmap('<Leader>gp', '<cmd>Git push<CR>')
