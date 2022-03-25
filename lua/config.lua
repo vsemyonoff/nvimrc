@@ -12,7 +12,7 @@ local M = {
         user_config = {
             display = {
                 open_fn = function()
-                    return require('packer.util').float({ border = 'single' })
+                    return require('packer/util').float({ border = 'double' })
                 end,
                 prompt_border = 'double',
             },

@@ -123,7 +123,7 @@ return {
     -- { 'Yggdroot/indentLine' },
     -- { 'beauwilliams/focus.nvim' },
     -- { 'RRethy/vim-illuminate' },
-    -- { 'kosayoda/nvim-lightbulb' },
+    { 'kosayoda/nvim-lightbulb', config = pkg_config('lightbulb') },
 
     -- Snippets
     {
