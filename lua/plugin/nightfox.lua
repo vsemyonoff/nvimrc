@@ -1,33 +1,42 @@
 local nightfox = require('nightfox')
 
-nightfox.setup({
-    fox = "nordfox", -- Which fox style should be applied
-    transparent = false, -- Disable setting the background color
-    alt_nc = true, -- Non current window bg to alt color see `hl-NormalNC`
-    terminal_colors = true, -- Configure the colors used when opening :terminal
-    styles = {
-        comments = "italic", -- Style that is applied to comments: see `highlight-args` for options
-        functions = "NONE", -- Style that is applied to functions: see `highlight-args` for options
-        keywords = "NONE", -- Style that is applied to keywords: see `highlight-args` for options
-        strings = "NONE", -- Style that is applied to strings: see `highlight-args` for options
-        variables = "NONE", -- Style that is applied to variables: see `highlight-args` for options
+local options = {
+    -- Compiled file's destination location
+    -- compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+    -- compile_file_suffix = "_compiled", -- Compiled file suffix
+    transparent = false, -- Disable setting background
+    terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+    dim_inactive = true, -- Non focused panes set to alternative background
+    styles = { -- Style to be applied to different syntax groups
+        comments = "italic", -- Value is any valid attr-list value `:help attr-list`
+        functions = "NONE",
+        keywords = "NONE",
+        numbers = "NONE",
+        strings = "NONE",
+        types = "NONE",
+        variables = "NONE",
     },
-    inverse = {
-        match_paren = false, -- Enable/Disable inverse highlighting for match parens
-        visual = false, -- Enable/Disable inverse highlighting for visual selection
-        search = false, -- Enable/Disable inverse highlights for search highlights
+    inverse = { -- Inverse highlight for different types
+        match_paren = false,
+        visual = false,
+        search = false,
     },
-    colors = {}, -- Override default colors
-    hlgroups = {
-        LineNr = { bg = "${bg_alt}" },
-        SignColumn = { bg = "${bg_alt}" },
-        SignColumnSB = { bg = "${bg_alt}" },
-        -- GitSigns
-        GitSignsAdd = { bg = "${bg_alt}" }, -- diff mode: Added line |diff.txt|
-        GitSignsChange = { bg = "${bg_alt}" }, -- diff mode: Changed line |diff.txt|
-        GitSignsDelete = { bg = "${bg_alt}" }, -- diff mode: Deleted line |diff.txt|
+    modules = { -- List of various plugins and additional options
+        -- ...
     },
-})
+}
 
--- Load the configuration set above and apply the colorscheme
-nightfox.load()
+local groups = {
+    LineNr = { bg = "bg0" },
+    SignColumn = { bg = "bg0" },
+    SignColumnSB = { bg = "bg0" },
+    -- GitSigns
+    GitSignsAdd = { bg = "bg0" }, -- diff mode: Added line |diff.txt|
+    GitSignsChange = { bg = "bg0" }, -- diff mode: Changed line |diff.txt|
+    GitSignsDelete = { bg = "bg0" }, -- diff mode: Deleted line |diff.txt|
+}
+
+nightfox.setup({ options = options, groups = groups })
+
+-- Apply theme
+vim.cmd("colorscheme nordfox")
