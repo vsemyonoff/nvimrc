@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# Script details
+SCRIPT_NAME="$(basename ${0})"
+
+# Repo packages
+PACKAGES=(
+    clang
+    go
+    npm
+    python-pip
+)
+
+# AUR packages
+AUR_PACKAGES=(
+    lua-format-git
+    neovide-git
+)
+
+# Show usage
+function show_help() {
+    cat << EOF
+usage: ${SCRIPT_NAME} [ARGS]
+    -h, --help    -- show this help and exit
+    -i, --install -- install required packages
+    -p, --pretend -- print commands without execution
+EOF
+}
+
+# Install packages
+function install_packages () {
+    if [[ ${EUID} != 0 ]]; then
+        echo "root privileges required, executing sudo..."
+        sudo "${0}" "${@}"
+    else
+        # Install system packages:
+        [[ ${PACKAGES} ]] && ${PRETEND} pacman -S --needed --noconfirm ${PACKAGES[@]}
+        #     ...AUR packages:
+        [[ ${AUR_PACKAGES} ]] && ${PRETEND} pikaur -S --needed --noconfirm ${AUR_PACKAGES[@]}
+        # Exit script if running in 'sudo'
+        [[ "${SUDO_USER}" ]] && exit 0
+    fi
+}
+
+# Set default editor and extend 'PATH' variable
+function install_configs() {
+    mkdir -p "${HOME}/.profile.d"
+    cat > "${HOME}/.profile.d/010-editor.sh" << EOF
+# Set 'neovide' as default editor
+EDITOR="neovide"
+GIT_EDITOR="\${EDITOR} --nofork"
+SUDO_EDITOR="\${EDITOR} --nofork"
+
+xexport EDITOR GIT_EDITOR SUDO_EDITOR
+EOF
+}
+
+# Parse arguments
+args=()
+for arg in "${@}"; do
+    case "${arg}" in
+        -h|--help)
+            show_help
+            exit 0
+            ;;
+        -i|--install)
+            INSTALL_PACKAGES="yes"
+            args+=("${arg}")
+            ;;
+        -p|--pretend)
+            PRETEND="echo"
+            args+=("${arg}")
+            ;;
+        *)
+            echo "error: unsupported parameter '${arg}'"
+            show_help
+            exit 1
+            ;;
+    esac
+done
+set -- "${args[@]}"
+
+# Exec tasks
+[[ "${INSTALL_PACKAGES}" ]] && install_packages "${@}"
+install_configs
