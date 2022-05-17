@@ -1,9 +1,10 @@
 local M = {}
 
+local include = require('core/utils').include
 local stdpath = vim.fn.stdpath
 
 local settings = {
-    automatic_installation = true,
+    ensure_installed = include('config').lsp.servers,
     ui = {
         icons = {
             server_installed = "✓",

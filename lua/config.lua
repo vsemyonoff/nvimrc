@@ -1,10 +1,13 @@
 local stdpath = vim.fn.stdpath
 
 local M = {
-    system = {
-        main = "core", -- setup entry point
-        servers = { "bashls", "clangd", "efm", "sumneko_lua" }, -- LSP servers
-        leader = " ", -- Leader key
+    lsp = {
+        servers = {
+            "bashls", -- Bash
+            "clangd", -- C/C++
+            "efm", -- Formatter
+            "sumneko_lua", -- Lua LS
+        },
     },
 
     packer = {
@@ -15,6 +18,11 @@ local M = {
         spec = 'plugin',
         user_config = {},
         floating = true,
+    },
+
+    system = {
+        main = "core", -- setup entry point
+        leader = " ", -- Leader key
     },
 
     ui = {

@@ -39,7 +39,8 @@ M.setup = function()
     set.smartcase = true -- Case sensitivie searching
     set.smartindent = true
     set.softtabstop = 4
-    set.spelllang = { 'en', 'ru' }
+    -- set.spelllang = { 'en', 'ru' }
+    set.spelllang = { 'en' }
     set.splitbelow = true -- Splitting a new window below the current one
     set.splitright = true -- Splitting a new window at the right of the current one
     set.swapfile = false -- Disable use of swapfile for the buffer
@@ -52,10 +53,11 @@ M.setup = function()
     set.wrap = false -- Disable wrapping of lines longer than the width of window
     set.writebackup = false -- Disable making a backup before overwriting a file
 
-    -- Disable some internal plugins
     -- g.do_filetype_lua = 1 -- use filetype.lua
     -- g.did_load_filetypes = 0 -- don't use filetype.vim
     g.mapleader = leader -- set leader key
+
+    -- Disable some internal plugins
     g.zipPlugin = false -- disable zip
     g.load_black = false -- disable black
     g.loaded_2html_plugin = true -- disable 2html
