@@ -14,11 +14,8 @@ if exists(':GuiFont')
         :execute "GuiFont! " . s:fontName . ":h" . s:fontSize
     endfunction
 
-    noremap <silent><C-S-Up> :call AdjustFontSize(1)<CR>
-    noremap <silent><C-S-Down> :call AdjustFontSize(-1)<CR>
-
-    inoremap <silent><C-S-Up> <Esc>:call AdjustFontSize(1)<CR>a
-    inoremap <silent><C-S-Down> <Esc>:call AdjustFontSize(-1)<CR>a
+    noremap <silent><C-up> <cmd>call AdjustFontSize(1)<cr>
+    noremap <silent><C-down> <cmd>call AdjustFontSize(-1)<cr>
 endif
 
 " Disable GUI Tabline
@@ -40,7 +37,5 @@ if exists('*GuiRenderLigatures')
 endif
 
 if exists('*GuiShowContextMenu')
-    nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-    inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
-    vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
+    noremap <silent><rightmouse> <cmd>call GuiShowContextMenu()<cr>
 endif

@@ -1,59 +1,76 @@
+local luasnip = require('luasnip')
 local cmp = require('cmp')
 
-cmp.setup {
+cmp.setup({
+    preselect = cmp.PreselectMode.Item,
     formatting = {
-        format = function(entry, vim_item)
-            -- fancy icons and a name of kind
-            vim_item.kind = require("lspkind").presets.default[vim_item.kind]
-                                .. " " .. vim_item.kind
-            -- set a name for each source
-            vim_item.menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                snippy = "[Snippy]",
-                nvim_lua = "[Lua]",
-                look = "[Look]",
-                path = "[Path]",
-                calc = "[Calc]",
-                spell = "[Spell]",
-                emoji = "[Emoji]",
-            })[entry.source.name]
-            return vim_item
-        end,
+        fields = { "kind", "abbr", "menu" },
+        format = require('lspkind').cmp_format({
+            mode = 'symbol', -- show only symbol annotations
+            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        }),
+        -- format = function(_, vim_item)
+        --    vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+        --    return vim_item
+        -- end,
     },
+    snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+    duplicates = {
+        nvim_lsp = 1,
+        luasnip = 1,
+        cmp_tabnine = 1,
+        buffer = 1,
+        path = 1,
+    },
+    confirm_opts = { behavior = cmp.ConfirmBehavior.Insert, select = true },
+    window = {
+        documentation = {
+            border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        },
+    },
+    experimental = { ghost_text = false, native_menu = false },
     mapping = {
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping(function(fallback)
+        ["<Up>"] = cmp.mapping.select_prev_item({
+            behavior = cmp.SelectBehavior.Select,
+        }),
+        ["<Down>"] = cmp.mapping.select_next_item({
+            behavior = cmp.SelectBehavior.Select,
+        }),
+        ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
+        ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
+        ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+        ["<C-y>"] = cmp.config.disable,
+        ["<C-e>"] = cmp.mapping {
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        },
+        ["<CR>"] = cmp.mapping.confirm { select = true },
+        ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-                cmp.confirm({
-                    behavior = cmp.ConfirmBehavior.Insert,
-                    select = true,
-                })
+                cmp.confirm({ select = true })
+            elseif luasnip.expandable() then
+                luasnip.expand()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
             else
                 fallback()
             end
-        end, { 'i', 's' }),
-    },
-    snippet = {
-        expand = function(args)
-            require('snippy').expand_snippet(args.body)
-        end,
+        end, { "i", "s" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            else
+                fallback()
+            end
+        end, { "i", "s" }),
     },
     sources = {
-        { name = 'buffer' },
         { name = 'nvim_lsp' },
-        { name = 'snippy' },
         { name = "nvim_lua" },
-        { name = 'look' },
+        { name = 'luasnip' },
+        { name = 'buffer' },
         { name = 'path' },
-        { name = 'calc' },
-        { name = 'spell' },
-        { name = 'emoji' },
+        { name = 'nvim_lsp_signature_help' },
     },
     completion = { completeopt = 'menu,menuone,noinsert' },
-}
+})

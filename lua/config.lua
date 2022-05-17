@@ -1,25 +1,26 @@
 local stdpath = vim.fn.stdpath
 
 local M = {
-    packer = {
-        setup = {
-            path = string.format('%s/site/pack/packer/opt/packer.nvim',
-                                 stdpath('data')),
-            url = 'https://github.com/wbthomason/packer.nvim',
-        },
-
-        spec = 'plugin',
-        user_config = {
-            display = {
-                open_fn = function()
-                    return require('packer/util').float({ border = 'double' })
-                end,
-                prompt_border = 'double',
-            },
-        },
+    system = {
+        main = "core", -- setup entry point
+        servers = { "bashls", "clangd", "efm", "sumneko_lua" }, -- LSP servers
+        leader = " ", -- Leader key
     },
 
-    main = 'core', -- setup entry point
+    packer = {
+        setup = {
+            path = ("%s/site/pack/packer/opt/packer.nvim"):format(stdpath("data")),
+            url = "https://github.com/wbthomason/packer.nvim",
+        },
+        spec = 'plugin',
+        user_config = {},
+        floating = true,
+    },
+
+    ui = {
+        border_style = "rounded", -- none, single, double, rounded, solid, shadow
+        theme = "nordfox",
+    },
 }
 
 return M

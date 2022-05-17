@@ -3,28 +3,48 @@ local include = utils.include
 local config = include('config')
 local stdpath = vim.fn.stdpath
 
-local packer_config = function()
+local force_config = function()
+    local border_style = config.ui.border_style or "rounded"
+
     local user_config = {
         auto_clean = true,
         auto_reload_compiled = true,
         compile_on_sync = true,
-        compile_path = string.format("%s/lua/loaders.lua", stdpath('config')),
+        compile_path = ("%s/lua/loaders.lua"):format(stdpath('config')),
+        display = { prompt_border = border_style },
     }
 
-    return vim.tbl_deep_extend('keep', user_config,
-                               config.packer.user_config or {})
+    if config.packer.floating then
+        local avail, packer_util = pcall(require, "packer/util")
+        if avail then
+            local display = {
+                open_fn = function() return packer_util.float({
+                    border = border_style,
+                }) end,
+            }
+            user_config.display = vim.tbl_deep_extend("keep", user_config.display, display)
+        end
+    end
+
+    return vim.tbl_deep_extend('keep', user_config, config.packer.user_config or {})
 end
 
 -- Start/restart packer
 PackerStartup = function(packer)
-    local user_config = packer_config()
     local spec = include(config.packer.spec)
+    local user_config = force_config()
+
     packer.startup({ spec, config = user_config })
+
     return user_config
 end
 
 -- Start/restart main config
-MainStartup = function() include(config.main) end
+MainStartup = function()
+    require('impatient')
+    include(config.system.main)
+    vim.cmd("doautocmd User MainStartupComplete")
+end
 
 -- Install/configure Packer
 local haspacker, packer = pcall(require, 'packer')
@@ -41,8 +61,7 @@ if not haspacker then
     }, vim.schedule_wrap(function(code, _)
         handle:close()
         if code ~= 0 then
-            error("[error]: packer setup failed ('git clone failed with code "
-                      .. code .. "')")
+            error("[error]: packer setup failed ('git clone failed with code " .. code .. "')")
         end
         vim.cmd('packadd packer.nvim')
         packer = require('packer')
@@ -62,25 +81,22 @@ else
 end
 
 -- Packer related autocommands
-local aucmd = {}
-aucmd.resync_packer = [[lua
-    local packer = require('packer')
-    PackerStartup(packer)
-    packer.sync()
-]]
+local augroup = vim.api.nvim_create_augroup
+local autocmd = vim.api.nvim_create_autocmd
 
-aucmd.reload_main = [[lua
-    MainStartup()
-]]
+local packerUserSetup = augroup("PackerUserSetup", { clear = true })
 
-utils.create_augroups({
-    PackerUserSetup = {
-        { "BufWritePost", config.packer.spec .. ".lua", aucmd.resync_packer },
-        {
-            "FileType",
-            "packer",
-            "setlocal nonumber norelativenumber signcolumn=no",
-        },
-        { "User", "PackerComplete", aucmd.reload_main },
-    },
+autocmd("BufWritePost", {
+    pattern = ("%s.lua"):format(config.packer.spec),
+    callback = function()
+        PackerStartup(packer)
+        packer.sync()
+    end,
+    group = packerUserSetup,
+})
+
+autocmd("User", {
+    pattern = "PackerComplete",
+    callback = MainStartup,
+    group = packerUserSetup,
 })

@@ -1,14 +1,19 @@
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-    highlight = {
-        enable = true, -- false will disable the whole extension
-        disable = {}, -- list of language that will be disabled
-    },
-    playground = {
+local treesitter = require('nvim-treesitter/configs')
+
+treesitter.setup({
+    ensure_installed = "all",
+    sync_install = false,
+    ignore_install = {},
+    highlight = { enable = true, additional_vim_regex_highlighting = false },
+    context_commentstring = { enable = true, enable_autocmd = false },
+    autopairs = { enable = true },
+    incremental_selection = { enable = true },
+    indent = { enable = false },
+    rainbow = {
         enable = true,
-        disable = {},
-        updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-        persist_queries = false, -- Whether the query persists across vim sessions
+        disable = { "html" },
+        extended_mode = false,
+        max_file_lines = nil,
     },
-    rainbow = { enable = true },
-}
+    autotag = { enable = true },
+})

@@ -2,28 +2,12 @@ local M = {}
 
 M.base_dir = "plugin"
 
-M.create_augroups = function(definitions)
-    for group_name, definition in pairs(definitions) do
-        vim.api.nvim_command('augroup ' .. group_name)
-        vim.api.nvim_command('autocmd!')
-        for _, def in ipairs(definition) do
-            local command =
-                table.concat(vim.tbl_flatten { 'autocmd', def }, ' ')
-            vim.api.nvim_command(command)
-        end
-        vim.api.nvim_command('augroup END')
-    end
-end
-
 M.split_path = function(path)
     -- returns: { path, filename, extension }
     return path:match("(.-)([^\\/]-)%.?([^%.\\/]*)$")
 end
 
-local get_config = function(name)
-    local cfg = string.format("%s/%s", M.base_dir, name)
-    return cfg
-end
+local get_config = function(name) return ("%s/%s"):format(M.base_dir, name) end
 
 M.pkg_config = function(name)
     local fmt = "require('core/utils').include('%s')"

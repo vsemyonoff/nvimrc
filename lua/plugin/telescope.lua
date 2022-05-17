@@ -1,57 +1,101 @@
-require('telescope').setup {
-    find_command = {
-        'rg',
-        '--no-heading',
-        '--with-filename',
-        '--line-number',
-        '--column',
-        '--smart-case',
-    },
-    use_less = true,
-    file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
-    grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
-    qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-    extensions = {
-        arecibo = {
-            ["selected_engine"] = 'google',
-            ["url_open_command"] = 'open',
-            ["show_http_headers"] = false,
-            ["show_domain_icons"] = false,
+local telescope = require('telescope')
+local actions = require('telescope/actions')
+
+local notify_present, _ = pcall(require, "notify")
+if notify_present then
+    telescope.load_extension("notify")
+end
+
+local aerial_present, _ = pcall(require, "aerial")
+if aerial_present then
+    telescope.load_extension("aerial")
+end
+
+telescope.setup({
+    defaults = {
+
+        prompt_prefix = " ",
+        selection_caret = "❯ ",
+        path_display = { "truncate" },
+        selection_strategy = "reset",
+        sorting_strategy = "ascending",
+        layout_strategy = "horizontal",
+        layout_config = {
+            horizontal = {
+                prompt_position = "top",
+                preview_width = 0.55,
+                results_width = 0.8,
+            },
+            vertical = { mirror = false },
+            width = 0.87,
+            height = 0.80,
+            preview_cutoff = 120,
+        },
+
+        mappings = {
+            i = {
+                ["<C-n>"] = actions.cycle_history_next,
+                ["<C-p>"] = actions.cycle_history_prev,
+
+                ["<C-j>"] = actions.move_selection_next,
+                ["<C-k>"] = actions.move_selection_previous,
+
+                ["<C-c>"] = actions.close,
+
+                ["<Down>"] = actions.move_selection_next,
+                ["<Up>"] = actions.move_selection_previous,
+
+                ["<CR>"] = actions.select_default,
+                ["<C-x>"] = actions.select_horizontal,
+                ["<C-v>"] = actions.select_vertical,
+                ["<C-t>"] = actions.select_tab,
+
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+
+                ["<PageUp>"] = actions.results_scrolling_up,
+                ["<PageDown>"] = actions.results_scrolling_down,
+
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                ["<C-l>"] = actions.complete_tag,
+            },
+
+            n = {
+                ["<esc>"] = actions.close,
+                ["<CR>"] = actions.select_default,
+                ["<C-x>"] = actions.select_horizontal,
+                ["<C-v>"] = actions.select_vertical,
+                ["<C-t>"] = actions.select_tab,
+
+                ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+
+                ["j"] = actions.move_selection_next,
+                ["k"] = actions.move_selection_previous,
+                ["H"] = actions.move_to_top,
+                ["M"] = actions.move_to_middle,
+                ["L"] = actions.move_to_bottom,
+
+                ["<Down>"] = actions.move_selection_next,
+                ["<Up>"] = actions.move_selection_previous,
+                ["gg"] = actions.move_to_top,
+                ["G"] = actions.move_to_bottom,
+
+                ["<C-u>"] = actions.preview_scrolling_up,
+                ["<C-d>"] = actions.preview_scrolling_down,
+
+                ["<PageUp>"] = actions.results_scrolling_up,
+                ["<PageDown>"] = actions.results_scrolling_down,
+            },
         },
     },
-}
-require('telescope').load_extension('fzy_native')
--- require('telescope').load_extension('snippets')
--- require('telescope').load_extension('arecibo')
--- require('telescope').load_extension('media_files')
+    pickers = {},
+    extensions = {},
+})
 
-local actions = require('telescope.actions')
-
-local M = {}
-
-M.search_dotfiles = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "< VimRC >",
-        cwd = "$HOME/workspace/development/alpha2phi/dotfiles/",
-    })
-end
-
-M.switch_projects = function()
-    require("telescope.builtin").find_files({
-        prompt_title = "< Switch Project >",
-        cwd = "$HOME/workspace/development/",
-    })
-end
-
-M.git_branches = function()
-    require("telescope.builtin").git_branches({
-        attach_mappings = function(prompt_bufnr, map)
-            map('i', '<c-d>', actions.git_delete_branch)
-            map('n', '<c-d>', actions.git_delete_branch)
-            return true
-        end,
-    })
-end
-
-return M
-
+require('core/utils').pkg_include('mappings/telescope').setup()
