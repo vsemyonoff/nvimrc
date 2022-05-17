@@ -10,7 +10,7 @@ M.setup = function()
         local ft = vim.api.nvim_buf_get_option(bufnr, "filetype")
         local fname = vim.fn.expand("%:p:t")
 
-        local present, handler = pcall(include, ('filetype/%s'):format(ft))
+        local present, handler = pcall(include, ('filetype/%s'):format(ft:lower()))
         if present then
             if type(handler.setup) == "function" then
                 handler.setup(ft, fname)
