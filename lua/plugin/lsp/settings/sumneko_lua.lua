@@ -1,8 +1,8 @@
 local include = require('core/utils').pkg_include
 
 local rtpath = vim.split(package.path, ';')
-table.insert(rtpath, "lua/?.lua")
-table.insert(rtpath, "lua/?/init.lua")
+table.insert(rtpath, 1, "lua/?.lua")
+table.insert(rtpath, 1, "lua/?/init.lua")
 
 local lualib = vim.api.nvim_get_runtime_file("", true)
 lualib['/usr/share/awesome/lib'] = true
