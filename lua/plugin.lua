@@ -8,16 +8,22 @@ return {
     { "lewis6991/impatient.nvim" },
 
     -- Lua functions
-    { "nvim-lua/plenary.nvim" },
+    { "nvim-lua/plenary.nvim", module = "plenary" },
 
     -- Popup API
     { "nvim-lua/popup.nvim" },
 
+    -- Neovim UI Enhancer
+    { "MunifTanjim/nui.nvim", module = "nui" },
+
     -- Notification Enhancer
     { "rcarriga/nvim-notify", config = pkg_config('notify') },
 
-    -- Neovim UI Enhancer
-    { "MunifTanjim/nui.nvim", module = "nui" },
+    -- Indentation
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        config = pkg_config('indent/blankline'),
+    },
 
     -- Indent detection
     {
@@ -36,11 +42,10 @@ return {
     -- Completion engine
     {
         'hrsh7th/nvim-cmp',
-        after = 'LuaSnip',
+        after = { "LuaSnip", "nvim-lspconfig" },
         requires = {
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
             'hrsh7th/cmp-nvim-lua',
             'hrsh7th/cmp-path',
             'onsails/lspkind-nvim',
@@ -70,7 +75,7 @@ return {
     -- Icons & color scheme
     { 'kyazdani42/nvim-web-devicons', config = pkg_config('devicons') },
     { 'norcalli/nvim-colorizer.lua', config = pkg_config('colorizer') },
-    { 'EdenEast/nightfox.nvim', config = pkg_config('colorscheme') },
+    { 'EdenEast/nightfox.nvim', config = pkg_config('nightfox') },
 
     -- Tab line
     {
@@ -78,15 +83,6 @@ return {
         requires = { 'kyazdani42/nvim-web-devicons' },
         config = pkg_config('bufferline'),
     },
-
-    -- Development
-    -- { 'tpope/vim-dispatch' },
-    -- { 'tpope/vim-surround' },
-    -- { 'tpope/vim-commentary' },
-    -- { 'tpope/vim-rhubarb' },
-    -- { 'tpope/vim-unimpaired' },
-    -- { 'tpope/vim-vinegar' },
-    -- { 'wellle/targets.vim' },
 
     { "folke/which-key.nvim", config = pkg_config('whichkey') },
 
@@ -97,21 +93,12 @@ return {
         requires = { 'nvim-lua/plenary.nvim' },
         config = pkg_config('gitsigns'),
     },
+
     {
         'TimUntersberger/neogit',
         requires = { 'nvim-lua/plenary.nvim' },
         config = pkg_config('neogit'),
     },
-
-    -- { 'unblevable/quick-scope' },
-    -- { 'christoomey/vim-tmux-navigator' },
-    -- { 'mhinz/vim-signify' },
-    -- { 'radenling/vim-dispatch-neovim' },
-    -- { 'phaazon/hop.nvim' },
-
-    -- Testing
-    -- { 'vim-test/vim-test' },
-    -- { 'rcarriga/vim-ultest", run = ":UpdateRemotePlugins' },
 
     {
         'folke/trouble.nvim',
@@ -151,7 +138,7 @@ return {
         config = pkg_config('lsp'),
     },
 
-    -- LSP symbols
+    -- LSP outliner
     {
         "stevearc/aerial.nvim",
         after = "nvim-lspconfig",
@@ -162,23 +149,16 @@ return {
 
     -- Better LSP experience
     -- { 'glepnir/lspsaga.nvim', config = pkg_config('lspsaga') },
-    -- { 'sbdchd/neoformat' },
-    -- { 'gennaro-tedesco/nvim-peekup' },
-    -- { 'szw/vim-maximizer' },
-    -- { 'dyng/ctrlsf.vim' },
-    -- { 'dbeniamine/cheat.sh-vim' },
-    -- { 'wellle/context.vim'},
-    -- { 'lukas-reineke/indent-blankline.nvim' },
-    -- { 'Yggdroot/indentLine' },
-    -- { 'beauwilliams/focus.nvim' },
-    -- { 'RRethy/vim-illuminate' },
     -- { 'kosayoda/nvim-lightbulb', config = pkg_config('lightbulb') },
 
-    -- { 'honza/vim-snippets' },
-    -- { 'nvim-telescope/telescope-snippets.nvim' },
+    -- Better syntax
+    {
+        'nvim-treesitter/nvim-treesitter',
+        run = ':TSUpdate',
+        config = pkg_config('treesitter'),
+    },
 
-    -- Lua development
-    -- { 'tjdevries/nlua.nvim' },
+    { 'nvim-treesitter/playground', after = 'nvim-treesitter' },
 
     -- Parenthesis highlighting
     { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
@@ -188,14 +168,6 @@ return {
 
     -- Context based commenting
     { "JoosepAlviste/nvim-ts-context-commentstring", after = "nvim-treesitter" },
-
-    -- Better syntax
-    {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate',
-        config = pkg_config('treesitter'),
-    },
-    { 'nvim-treesitter/playground', after = 'nvim-treesitter' },
 
     -- Dashboard
     { 'glepnir/dashboard-nvim', config = pkg_config('dashboard') },
@@ -208,61 +180,19 @@ return {
         config = pkg_config('lualine'),
     },
 
-    -- Debugging
-    -- { 'puremourning/vimspector' },
-    -- { 'nvim-telescope/telescope-vimspector.nvim' },
-
     -- Project
     {
         'nvim-telescope/telescope-project.nvim',
         after = 'telescope.nvim',
         config = function() require("telescope").load_extension "project" end,
     },
-    -- { 'airblade/vim-rooter' },
-    -- { 'tpope/vim-projectionist' },
 
     -- Markdown
     -- { 'ellisonleao/glow.nvim', run = ':GlowInstall' },
-    -- { 'mzlogin/vim-markdown-toc' },
     -- { 'iamcco/markdown-preview.nvim', run = 'cd app && yarn install' },
 
-    -- Development settings
-    -- {'editorconfig/editorconfig-vim'},
-
     -- Note taking
-    -- {'vimwiki/vimwiki', branch = 'dev'},
-    -- {'blindFS/vim-taskwarrior'},
-    -- {'tools-life/taskwiki'},
-    -- {'powerman/vim-plugin-AnsiEsc'},
-
-    -- Presentation
-    -- { 'sotte/presenting.vim' },
-    -- {'vim-pandoc/vim-pandoc'},
-    -- {'vim-pandoc/vim-pandoc-syntax'},
-
-    -- Project mgmt
-    -- { 'vim-ctrlspace/vim-ctrlspace' },
-
-    -- OSC 52 yank
-    -- { 'ojroques/vim-oscyank' },
-
-    -- Jupyter Vim
-    -- { 'jupyter-vim/jupyter-vim' },
-
-    -- Scratch pad
-    -- { 'metakirby5/codi.vim' },
-
-    -- Latex
-    -- { 'lervag/vimtex' },
-
-    -- Floaterm
-    -- { 'voldikss/vim-floaterm' },
-
-    -- Neoterm
-    -- { 'kassio/neoterm' },
-
-    -- Better terminal
-    -- { 'nikvdp/neomux' },
+    { 'nvim-orgmode/orgmode', ft = "org", config = pkg_config('orgmode') },
 
     -- Autopairs
     {
@@ -280,11 +210,11 @@ return {
         config = pkg_config('toggleterm'),
     },
 
-    -- Indentation
-    {
-        "lukas-reineke/indent-blankline.nvim",
-        config = pkg_config('indent/blankline'),
-    },
+    -- Neoterm
+    -- { 'kassio/neoterm' },
+
+    -- Better terminal
+    -- { 'nikvdp/neomux' },
 
     -- Commenting
     {
