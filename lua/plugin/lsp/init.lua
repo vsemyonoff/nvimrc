@@ -5,10 +5,10 @@ local config = include('config')
 
 local extend = vim.tbl_deep_extend
 
-pkg_include('lsp/installer').setup()
 pkg_include('lsp/handlers').setup()
+pkg_include('installer').setup()
 
-local servers = config.lsp.servers
+local servers = config.lsp.servers or {}
 for _, server in ipairs(servers) do
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
