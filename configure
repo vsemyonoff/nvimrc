@@ -5,16 +5,17 @@ SCRIPT_NAME="$(basename ${0})"
 
 # Repo packages
 PACKAGES=(
-    clang
     go
     npm
     python-pip
+    python-pynvim
 )
 
 # AUR packages
 AUR_PACKAGES=(
     lua-format-git
     neovide-git
+    neovim-git
 )
 
 # Show usage

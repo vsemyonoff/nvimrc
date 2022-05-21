@@ -29,18 +29,6 @@ M.setup = function()
         group = yankGrp,
     })
 
-    -- vim.api.nvim_exec([[
-    --     augroup auto_spellcheck
-    --         autocmd!
-    --         autocmd BufNewFile,BufRead *.md setlocal spell
-    --         autocmd BufNewFile,BufRead *.org setfiletype markdown
-    --         autocmd BufNewFile,BufRead *.org setlocal spell
-    --         autocmd BufNewFile,BufRead *.html setlocal ts=2 sw=2
-    --         autocmd BufNewFile,BufRead *.js setlocal ts=2 sw=2
-    --         autocmd BufNewFile,BufRead *.json setlocal syntax=off
-    --     augroup END
-    -- ]], false)
-
     local termGrp = augroup("TerminalGroup", { clear = true })
     autocmd("TermOpen", {
         command = "setlocal nonumber norelativenumber signcolumn=no",

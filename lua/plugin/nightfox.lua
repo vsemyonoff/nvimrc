@@ -30,14 +30,16 @@ local groups = {
         SignColumn = { bg = "bg0" },
         SignColumnSB = { bg = "bg0" },
         -- GitSigns
-        GitSignsAdd = { bg = "bg0" }, -- diff mode: Added line |diff.txt|
-        GitSignsChange = { bg = "bg0" }, -- diff mode: Changed line |diff.txt|
-        GitSignsDelete = { bg = "bg0" }, -- diff mode: Deleted line |diff.txt|
+        GitSignsAdd = { bg = "bg0" },
+        GitSignsChange = { bg = "bg0" },
+        GitSignsDelete = { bg = "bg0" },
+        -- Bufferline
+        BufferLineTabSelected = { style = "bold" },
+        BufferLineBufferSelected = { style = "bold" },
     },
 }
 
 require('nightfox').setup({ options = options, groups = groups })
 
--- Apply theme
 local theme = require('core/utils').include('config').ui.theme
 vim.cmd(('colorscheme %s'):format(theme))

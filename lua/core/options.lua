@@ -9,6 +9,9 @@ local ru =
 local en = '#`qwertyuiop[]asdfghjkl\\;\'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXCVBNM<>'
 
 M.setup = function()
+    -- local theme = include('config').ui.theme
+    -- vim.cmd(('colorscheme %s'):format(theme))
+
     -- Neovide settings
     set.guifont = "RobotoMono Nerd Font:h7.5"
 
@@ -39,8 +42,7 @@ M.setup = function()
     set.smartcase = true -- Case sensitivie searching
     set.smartindent = true
     set.softtabstop = 4
-    -- set.spelllang = { 'en', 'ru' }
-    set.spelllang = { 'en' }
+    set.spelllang = { 'en', 'ru' }
     set.splitbelow = true -- Splitting a new window below the current one
     set.splitright = true -- Splitting a new window at the right of the current one
     set.swapfile = false -- Disable use of swapfile for the buffer
