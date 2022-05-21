@@ -174,10 +174,9 @@ return {
 
     -- Status line
     {
-        'nvim-lualine/lualine.nvim',
-        event = "VimEnter",
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        config = pkg_config('lualine'),
+        "feline-nvim/feline.nvim",
+        after = "nvim-web-devicons",
+        config = pkg_config('feline'),
     },
 
     -- Project
