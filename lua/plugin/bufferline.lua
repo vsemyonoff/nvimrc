@@ -1,32 +1,24 @@
-local include = require('core/utils').pkg_include
-
 require('bufferline').setup({
     options = {
         show_close_icon = false,
         offsets = {
             {
-                filetype = "NvimTree",
-                text = "File browser:",
+                filetype = "aerial",
+                text = "Outline:",
                 text_allign = "center",
                 padding = 1,
             },
             {
                 filetype = "neo-tree",
-                text = "File browser:",
-                ptext_allign = "center",
-                adding = 1,
-            },
-            {
-                filetype = "Outline",
-                text = "Outline:",
-                ptext_allign = "center",
-                adding = 1,
+                text = "Neo Tree:",
+                text_allign = "center",
+                padding = 1,
             },
             {
                 filetype = "packer",
                 text = "Package manager:",
-                ptext_allign = "center",
-                adding = 1,
+                text_allign = "center",
+                padding = 1,
             },
         },
         buffer_close_icon = "",
@@ -41,5 +33,3 @@ require('bufferline').setup({
         separator_style = "thin",
     },
 })
-
-include('mappings/bufferline').setup()

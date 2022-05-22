@@ -1,13 +1,12 @@
 local M = {}
 
-local bnmap = require('core/utils').bnmap
-local bvmap = require('core/utils').bvmap
-
 M.setup = function(client, bufnr)
+    local bnmap = require('core/utils').bnmap
+    local bvmap = require('core/utils').bvmap
+
     require('which-key').register({
         l = {
             name = "LSP",
-            d = { vim.diagnostic.open_float, "Hover diagnostic" },
             i = { "<cmd>LspInfo<cr>", "LSP information" },
             I = { "<cmd>LspInstallInfo<cr>", "LSP installer" },
         },
@@ -58,6 +57,10 @@ M.setup = function(client, bufnr)
             desc = "Format selection",
         })
     end
+
+    bnmap("<leader>lD", function() require("telescope.builtin").diagnostics() end, {
+        desc = "Diagnostics",
+    })
 end
 
 return M

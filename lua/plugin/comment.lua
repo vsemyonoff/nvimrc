@@ -1,5 +1,3 @@
-local include = require('core/utils').pkg_include
-
 require('Comment').setup({
     pre_hook = function(ctx)
         local U = require('Comment/utils')
@@ -17,5 +15,3 @@ require('Comment').setup({
         }
     end,
 })
-
-include('mappings/comment').setup()

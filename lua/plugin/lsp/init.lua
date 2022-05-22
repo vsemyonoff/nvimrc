@@ -19,9 +19,9 @@ for _, server in ipairs(servers) do
     }
 
     -- Apply server settings if any
-    local present, overrides = pcall(pkg_include, ('lsp/settings/%s'):format(server))
+    local present, override = pcall(pkg_include, ('lsp/override/%s'):format(server))
     if present then
-        opts = extend("force", opts, overrides)
+        opts = extend("force", opts, override)
     end
 
     lspcfg[server].setup(opts)

@@ -33,11 +33,11 @@ g.dashboard_custom_section = {
         command = "Telescope find_files",
     },
     b = {
-        description = { "   Recents                   SPC f o" },
+        description = { "   Recents                   SPC f r" },
         command = "Telescope oldfiles",
     },
     c = {
-        description = { "   Find Word                 SPC f w" },
+        description = { "   Search Word               SPC s w" },
         command = "Telescope live_grep",
     },
     d = {
@@ -45,11 +45,11 @@ g.dashboard_custom_section = {
         command = "DashboardNewFile",
     },
     e = {
-        description = { "   Bookmarks                 SPC b m" },
+        description = { "   Bookmarks                 SPC f m" },
         command = "Telescope marks",
     },
     f = {
-        description = { "   Last Session              SPC s l" },
+        description = { "   Last Workspace            SPC w l" },
         command = "SessionLoad",
     },
 }

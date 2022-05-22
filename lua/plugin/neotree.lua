@@ -1,7 +1,4 @@
-local pkg_include = require('core/utils').pkg_include
 local include = require('core/utils').include
-
-vim.g.neo_tree_remove_legacy_commands = true
 
 require('neo-tree').setup({
     close_if_last_window = true,
@@ -58,5 +55,3 @@ require('neo-tree').setup({
         },
     },
 })
-
-pkg_include('mappings/neotree').setup()

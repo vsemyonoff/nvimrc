@@ -1,8 +1,7 @@
 local M = {}
 
-local include = require('core/utils').include
-
 M.setup = function()
+    local include = require('core/utils').include
     local border_style = include('config').ui.border_style or "rounded"
 
     local signs = {

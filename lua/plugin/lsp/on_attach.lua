@@ -53,7 +53,7 @@ M.setup = function(client, bufnr)
         default_cb(client, bufnr)
     end
 
-    local aerial_avail, aerial = pcall(require, "aerial")
+    local aerial_avail, aerial = pcall(require, 'aerial')
     if aerial_avail then
         aerial.on_attach(client, bufnr)
     end
