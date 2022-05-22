@@ -159,7 +159,6 @@ return {
         requires = { 'kyazdani42/nvim-web-devicons' },
         config = pkg_config('bufferline'),
     },
-
     { -- Dashboard
         'glepnir/dashboard-nvim',
         config = pkg_config('dashboard'),
@@ -195,11 +194,6 @@ return {
         requires = { 'tami5/sql.nvim' },
         config = function() require("telescope").load_extension "frecency" end,
     },
-    {
-        'nvim-telescope/telescope-project.nvim',
-        after = "telescope.nvim",
-        config = function() require("telescope").load_extension "project" end,
-    },
 
     --
     -- Git integration
@@ -215,6 +209,15 @@ return {
         cmd = "Neogit",
         requires = { 'nvim-lua/plenary.nvim' },
         config = pkg_config('neogit'),
+    },
+
+    --
+    -- Project helper
+    --
+    {
+        'ahmedkhalf/project.nvim',
+        after = { "nvim-lspconfig", "telescope.nvim" },
+        config = pkg_config('project'),
     },
 
     --

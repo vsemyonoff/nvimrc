@@ -62,6 +62,12 @@ M.setup = function()
             require("telescope.builtin").lsp_document_symbols()
         end
     end, { desc = "Symbols" })
+    local project_avail, _ = pcall(require, "project_nvim")
+    if project_avail then
+        map("<leader>sp", function() require('telescope').extensions.projects.projects() end, {
+            desc = "Project",
+        })
+    end
 end
 
 return M
