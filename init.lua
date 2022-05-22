@@ -43,7 +43,7 @@ end
 MainStartup = function()
     require('impatient')
     include(config.system.main)
-    vim.cmd("doautocmd User MainStartupComplete")
+    vim.cmd({ cmd = "doautocmd", args = { "User", "MainStartupComplete" } })
 end
 
 -- Install/configure Packer
@@ -61,9 +61,9 @@ if not haspacker then
     }, vim.schedule_wrap(function(code, _)
         handle:close()
         if code ~= 0 then
-            error("[error]: packer setup failed ('git clone failed with code " .. code .. "')")
+            error("[error]: packer setup failed ('git clone failed with code %s')"):format(code)
         end
-        vim.cmd('packadd packer.nvim')
+        vim.cmd({ cmd = "packadd", args = { "packer.nvim" } })
         packer = require('packer')
         PackerStartup(packer)
         packer.sync()

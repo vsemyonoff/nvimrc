@@ -10,7 +10,7 @@ local en = '#`qwertyuiop[]asdfghjkl\\;\'zxcvbnm\\,.~QWERTYUIOP{}ASDFGHJKL:\\"ZXC
 
 M.setup = function()
     -- local theme = include('config').ui.theme
-    -- vim.cmd(('colorscheme %s'):format(theme))
+    -- vim.cmd({ cmd = "colorscheme", args = { theme } })
 
     -- Neovide settings
     set.guifont = "RobotoMono Nerd Font:h7.5"

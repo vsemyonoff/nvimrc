@@ -1,5 +1,6 @@
+local theme = require('core/utils').include('config').ui.theme
 local M = { hl = {}, provider = {}, conditional = {} }
-local C = require('nightfox/palette').load('nightfox')
+local C = require('nightfox/palette').load(theme)
 
 local function hl_by_name(name) return string.format("#%06x", vim.api.nvim_get_hl_by_name(name.group, true)[name.prop]) end
 

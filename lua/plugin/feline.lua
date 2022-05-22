@@ -1,10 +1,11 @@
 local M = {}
 
-local feline = require('feline')
-local C = require('nightfox.palette').load('nightfox')
-local hl = require('core/status').hl
-local provider = require('core/status').provider
+local theme = require('core/utils').include('config').ui.theme
+local C = require('nightfox/palette').load(theme)
 local conditional = require('core/status').conditional
+local provider = require('core/status').provider
+local hl = require('core/status').hl
+local feline = require('feline')
 
 -- stylua: ignore
 feline.setup({
