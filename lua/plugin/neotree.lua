@@ -26,7 +26,7 @@ require('neo-tree').setup({
             },
         },
     },
-    window = { width = 25, mappings = { ["o"] = "open" } },
+    window = { position = "left", mappings = { ["o"] = "open" } },
     filesystem = {
         filtered_items = {
             visible = false,

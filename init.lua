@@ -85,7 +85,6 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 
 local packerUserSetup = augroup("PackerUserSetup", { clear = true })
-
 autocmd("BufWritePost", {
     pattern = ("%s.lua"):format(config.packer.spec),
     callback = function()
@@ -93,10 +92,11 @@ autocmd("BufWritePost", {
         packer.sync()
     end,
     group = packerUserSetup,
+    desc = "Sync packages on specification changes",
 })
-
 autocmd("User", {
     pattern = "PackerComplete",
     callback = MainStartup,
     group = packerUserSetup,
+    desc = "Update configuration after packages sync",
 })

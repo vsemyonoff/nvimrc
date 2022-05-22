@@ -19,26 +19,6 @@ M.setup = function()
         g = { name = "Git", s = { "<cmd>Neogit<cr>", "Status/commit" } },
         o = { "<cmd>AerialToggle right<cr>", "Outline" },
         t = { "<cmd>ToggleTerm<cr>", "Terminal" },
-        w = {
-            name = "Workspace",
-            l = {
-                "<cmd>SessionManager! load_last_session<cr>", --
-                "Load",
-            },
-            s = { "<cmd>SessionManager! save_current_session<cr>", "Save" },
-            d = {
-                "<cmd>SessionManager! delete_session<cr>", --
-                "Delete",
-            },
-            f = {
-                "<cmd>SessionManager! load_session<cr>", --
-                "Search",
-            },
-            L = {
-                "<cmd>SessionManager! load_current_dir_session<cr>",
-                "Load local",
-            },
-        },
     }, { prefix = "<leader>" })
 
     wk.register({ --
@@ -59,8 +39,7 @@ M.setup = function()
     }, { mode = "v" })
 
     wk.register({ --
-        ["<leader>t"] = { "<cmd>ToggleTerm<cr>", "Terminal" },
-        ["<esc>"] = { "<cmd>ToggleTerm<cr>", "Terminal" },
+        ["<C-esc>"] = { "<cmd>ToggleTerm<cr>", "Terminal close" },
     }, { mode = "t" })
 end
 

@@ -198,17 +198,6 @@ return {
     },
 
     --
-    -- Session manager
-    --
-    {
-        'Shatur/neovim-session-manager',
-        module = "session_manager",
-        cmd = "SessionManager",
-        event = "BufWritePost",
-        config = pkg_config('session'),
-    },
-
-    --
     -- Git integration
     --
     {

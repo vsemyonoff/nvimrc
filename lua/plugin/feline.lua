@@ -89,7 +89,7 @@ feline.setup({
                     enabled = conditional.bar_width(),
                 },
                 {
-                    provider = provider.lsp_client_names(true),
+                    provider = provider.lsp_client_names(),
                     short_provider = provider.lsp_client_names(),
                     enabled = conditional.bar_width(),
                     icon = "   ",

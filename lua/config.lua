@@ -6,7 +6,7 @@ local M = {
             "bashls", -- Bash
             "clangd", -- C/C++
             "efm", -- Formatter
-            "sumneko_lua", -- Lua LS
+            "sumneko_lua", -- Lua
         },
     },
 

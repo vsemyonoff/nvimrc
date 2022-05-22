@@ -16,11 +16,13 @@ local lsp_highlight_document = function(bufnr)
         buffer = bufnr,
         callback = vim.lsp.buf.document_highlight,
         group = lsp_hl,
+        desc = "Show references on idle",
     })
     autocmd("CursorMoved", {
         buffer = bufnr,
         callback = vim.lsp.buf.clear_references,
         group = lsp_hl,
+        desc = "Clear references",
     })
 end
 
@@ -30,6 +32,7 @@ M.lsp_format_on_save = function(bufnr)
         buffer = bufnr,
         callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
         group = lsp_fmt,
+        desc = "Format buffer before save",
     })
 
     usercmd(bufnr, "Format", vim.lsp.buf.format, { desc = "Format file with LSP" })

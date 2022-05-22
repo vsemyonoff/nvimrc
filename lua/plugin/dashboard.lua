@@ -48,10 +48,6 @@ g.dashboard_custom_section = {
         description = { "   Bookmarks                 SPC f m" },
         command = "Telescope marks",
     },
-    f = {
-        description = { "   Last Workspace            SPC w l" },
-        command = "SessionLoad",
-    },
 }
 
 g.dashboard_custom_footer = {

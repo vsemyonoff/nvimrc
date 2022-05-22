@@ -18,15 +18,18 @@ M.setup = function()
         end
     end
 
-    -- Filetype detect
     local ftDetectGrp = augroup("FiletypeDetectGroup", { clear = true })
-    autocmd("FileType", { callback = ftDetectHandler, group = ftDetectGrp })
+    autocmd("FileType", {
+        callback = ftDetectHandler,
+        group = ftDetectGrp,
+        desc = "Run file type handler after detection",
+    })
 
-    -- Highlight on yank
     local yankGrp = augroup("YankHighlight", { clear = true })
     autocmd("TextYankPost", {
         callback = function() vim.highlight.on_yank() end,
         group = yankGrp,
+        desc = "Highlight yanked region",
     })
 
     local termGrp = augroup("TerminalGroup", { clear = true })
@@ -36,41 +39,60 @@ M.setup = function()
     })
     autocmd("TermOpen", { command = "startinsert", group = termGrp })
 
-    vim.api.nvim_exec([[
-        fun! TrimWhitespace()
-            let l:save = winsaveview()
-            keeppatterns %s/\s\+$//e
-            call winrestview(l:save)
-        endfun
-
-        autocmd BufWritePre * :call TrimWhitespace()
-    ]], false)
-
-    -- Show cursor line only in active window
     local cursorGrp = augroup("CursorLine", { clear = true })
     autocmd("WinEnter", {
         callback = function() vim.opt.cursorline = true end,
         group = cursorGrp,
+        desc = "Enable 'cursorline' for active window",
     })
     autocmd("WinLeave", {
         callback = function() vim.opt.cursorline = false end,
         group = cursorGrp,
+        desc = "Disable 'cursorline' for inactive window",
     })
 
-    -- Use relative & absolute line numbers in 'n' & 'i' modes respectively
     local numbersMode = augroup("NumbersMode", { clear = true })
     autocmd("InsertEnter", {
         callback = function() vim.opt.relativenumber = false end,
         group = numbersMode,
+        desc = "Show absolute line numbers in insert mode",
     })
     autocmd("InsertLeave", {
         callback = function() vim.opt.relativenumber = true end,
         group = numbersMode,
+        desc = "Show relative line numbers in normal mode",
     })
 
-    -- Go to last loc when opening a buffer
+    local autoHelpers = augroup("AutoHelpersGrp", { clear = true })
+    autocmd("BufWritePre", {
+        callback = function()
+            local save = vim.fn.winsaveview()
+            vim.cmd([[keeppatterns %s/\s\+$//e]])
+            vim.fn.winrestview(save)
+        end,
+        group = autoHelpers,
+        desc = "Trim whitespaces before save",
+    })
+
+    autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+        callback = function()
+            if vim.fn.mode() ~= 'c' then
+                vim.cmd("checktime")
+            end
+        end,
+        group = autoHelpers,
+        desc = "Reload modified files",
+    })
+
     autocmd("BufReadPost", {
-        command = [[if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif]],
+        callback = function()
+            if vim.fn.line("'\"") and -- mark is present
+            vim.fn.line("'\"") <= vim.fn.line("$") then
+                vim.cmd("normal! g`\"")
+            end
+        end,
+        group = autoHelpers,
+        desc = "Restore cursor position",
     })
 end
 

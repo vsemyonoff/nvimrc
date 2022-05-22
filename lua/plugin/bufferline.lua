@@ -4,13 +4,13 @@ require('bufferline').setup({
         offsets = {
             {
                 filetype = "aerial",
-                text = "Outline:",
+                text = "Symbols outline:",
                 text_allign = "center",
                 padding = 1,
             },
             {
                 filetype = "neo-tree",
-                text = "Neo Tree:",
+                text = "File manager:",
                 text_allign = "center",
                 padding = 1,
             },

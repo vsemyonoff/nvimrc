@@ -1,7 +1,8 @@
 require('aerial').setup({
     close_behavior = "global",
     backends = { "lsp", "treesitter", "markdown" },
-    min_width = 28,
+    width = 0.25,
+    min_width = 30,
     show_guides = true,
     filter_kind = false,
     guides = {

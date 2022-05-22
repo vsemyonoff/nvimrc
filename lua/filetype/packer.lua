@@ -15,6 +15,7 @@ M.setup = function(_, _)
         callback = config,
         once = true,
         group = "PackerUserSetup",
+        desc = "Fix Packer window look after config reloaded",
     })
     config()
 end
