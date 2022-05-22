@@ -21,48 +21,64 @@ feline.setup({
     components = {
         active = {
             {
-                { provider = provider.spacer(), hl = hl.mode() },
-                { provider = provider.spacer(2) },
+                { -- Mode
+                    provider = function() return (" %s "):format(vim.fn.mode()):upper() end,
+                    hl = hl.mode(),
+                },
+                { provider = provider.spacer() },
+
+                { -- Project name
+                    provider = provider.lsp_project_name,
+                    hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }),
+                    enabled = conditional.has_lsp_project,
+                },
                 {
+                    provider = provider.spacer(),
+                    enabled = conditional.has_lsp_project,
+                },
+
+                { -- Git branch
                     provider = "git_branch",
                     hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }),
                     icon = " ",
-                },
-                {
-                    provider = provider.spacer(3),
                     enabled = conditional.git_available,
                 },
                 {
-                    provider = {
-                        name = "file_type",
-                        opts = { filetype_icon = true, case = "lowercase" },
-                    },
-                    enabled = conditional.has_filetype,
+                    provider = provider.spacer(),
+                    enabled = conditional.git_available,
                 },
-                {
-                    provider = provider.spacer(2),
-                    enabled = conditional.has_filetype,
+
+                { -- File name
+                    provider = { name = "file_info", opts = { type = "unique" } },
                 },
-                {
+
+                { -- File git info
                     provider = "git_diff_added",
                     hl = hl.fg("GitSignsAdd", { fg = C.green }),
                     icon = "  ",
+                    enabled = conditional.git_changed,
                 },
                 {
                     provider = "git_diff_changed",
                     hl = hl.fg("GitSignsChange", { fg = C.orange_1 }),
                     icon = " 柳",
+                    enabled = conditional.git_changed,
                 },
                 {
                     provider = "git_diff_removed",
                     hl = hl.fg("GitSignsDelete", { fg = C.red_1 }),
                     icon = "  ",
-                },
-                {
-                    provider = provider.spacer(2),
                     enabled = conditional.git_changed,
                 },
-                {
+            },
+            {
+                { -- LSP index progress
+                    provider = provider.lsp_progress,
+                    enabled = conditional.bar_width,
+                },
+                { provider = provider.spacer() },
+
+                { -- LSP diagnostics
                     provider = "diagnostic_errors",
                     hl = hl.fg("DiagnosticError", { fg = C.red_1 }),
                     icon = "  ",
@@ -82,38 +98,23 @@ feline.setup({
                     hl = hl.fg("DiagnosticHint", { fg = C.yellow_1 }),
                     icon = "  ",
                 },
-            },
-            {
-                {
-                    provider = provider.lsp_progress,
-                    enabled = conditional.bar_width(),
-                },
-                {
-                    provider = provider.lsp_client_names(),
-                    short_provider = provider.lsp_client_names(),
-                    enabled = conditional.bar_width(),
-                    icon = "   ",
-                },
-                {
-                    provider = provider.spacer(2),
-                    enabled = conditional.bar_width(),
-                },
-                {
+                { provider = provider.spacer() },
+
+                { -- Treesitter
                     provider = provider.treesitter_status,
-                    enabled = conditional.bar_width(),
+                    enabled = conditional.bar_width,
                     hl = hl.fg("GitSignsAdd", { fg = C.green }),
                 },
-                { provider = provider.spacer(2) },
-                { provider = "position" },
-                { provider = provider.spacer(2) },
+                { provider = provider.spacer() },
+
                 { provider = "line_percentage" },
                 { provider = provider.spacer() },
-                {
+
+                { -- Ruler
                     provider = "scroll_bar",
                     hl = hl.fg("TypeDef", { fg = C.yellow }),
                 },
-                { provider = provider.spacer(2) },
-                { provider = provider.spacer(), hl = hl.mode() },
+                { provider = provider.spacer() },
             },
         },
     },

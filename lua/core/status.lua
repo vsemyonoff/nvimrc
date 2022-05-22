@@ -8,7 +8,7 @@ local function hl_prop(group, prop)
     return status_ok and color or nil
 end
 
-M.modes = {
+local modes = {
     ["n"] = { "NORMAL", "Normal", C.blue },
     ["no"] = { "N-PENDING", "Normal", C.blue },
     ["i"] = { "INSERT", "Insert", C.green },
@@ -31,81 +31,94 @@ M.modes = {
     ["!"] = { "SHELL", "Inactive", C.grey_7 },
 }
 
-function M.hl.group(hlgroup, base)
-    return vim.tbl_deep_extend("force", base or {},
-                               {
-        fg = hl_prop(hlgroup, "foreground"),
-        bg = hl_prop(hlgroup, "background"),
-    })
-end
+M.hl = {
+    group = function(hlgroup, base)
+        return vim.tbl_deep_extend("force", --
+        base or {}, {
+            fg = hl_prop(hlgroup, "foreground"),
+            bg = hl_prop(hlgroup, "background"),
+        })
+    end,
 
-function M.hl.fg(hlgroup, base)
-    return vim.tbl_deep_extend("force", base or {}, {
-        fg = hl_prop(hlgroup, "foreground"),
-    })
-end
+    fg = function(hlgroup, base)
+        return vim.tbl_deep_extend("force", base or {}, {
+            fg = hl_prop(hlgroup, "foreground"),
+        })
+    end,
 
-function M.hl.mode(base)
-    local lualine_avail, lualine = pcall(require, "lualine.themes." .. vim.g.colors_name)
-    return function()
-        return M.hl.group("Feline" .. M.modes[vim.fn.mode()][2],
-                          vim.tbl_deep_extend("force",
-                                              lualine_avail and lualine[M.modes[vim.fn.mode()][2]:lower()].a
-                                                  or {
-                fg = C.bg_1,
-                bg = M.modes[vim.fn.mode()][3],
-            }, base or {}))
-    end
-end
-
-function M.provider.lsp_progress()
-    local Lsp = vim.lsp.util.get_progress_messages()[1]
-    return Lsp and string.format(" %%<%s %s %s (%s%%%%) ",
-                                 ((Lsp.percentage or 0) >= 70 and {
-        "",
-        "",
-        "",
-    } or { "", "", "" })[math.floor(vim.loop.hrtime() / 12e7) % 3 + 1], Lsp.title or "", Lsp.message or "",
-                                 Lsp.percentage or 0) or ""
-end
-
-function M.provider.lsp_client_names() -- (expand_null_ls)
-    return function()
-        local buf_client_names = {}
-        for _, client in ipairs(vim.lsp.buf_get_clients(0)) do
-            -- if client.name == "null-ls" and expand_null_ls then
-            --     vim.list_extend(buf_client_names, astronvim.null_ls_sources(vim.bo.filetype, "FORMATTING"))
-            --     vim.list_extend(buf_client_names, astronvim.null_ls_sources(vim.bo.filetype, "DIAGNOSTICS"))
-            -- else
-            table.insert(buf_client_names, client.name)
-            -- end
+    mode = function(base)
+        local lualine_avail, lualine = pcall(require, "lualine.themes." .. vim.g.colors_name)
+        return function()
+            return M.hl.group("Feline" .. modes[vim.fn.mode()][2],
+                              vim.tbl_deep_extend("force",
+                                                  lualine_avail and lualine[modes[vim.fn.mode()][2]:lower()].a
+                                                      or {
+                    fg = C.bg_1,
+                    bg = modes[vim.fn.mode()][3],
+                }, base or {}))
         end
-        return table.concat(buf_client_names, ", ")
-    end
-end
+    end,
+}
 
-function M.provider.treesitter_status()
-    local ts = vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()]
-    return (ts and next(ts)) and " 綠TS" or ""
-end
+M.provider = {
+    lsp_progress = function()
+        local Lsp = vim.lsp.util.get_progress_messages()[1]
+        return Lsp and string.format(" %%<%s %s %s (%s%%%%) ",
+                                     ((Lsp.percentage or 0) >= 70 and {
+            "",
+            "",
+            "",
+        } or { "", "", "" })[math.floor(vim.loop.hrtime() / 12e7) % 3 + 1], Lsp.title or "", Lsp.message or "",
+                                     Lsp.percentage or 0) or ""
+    end,
 
-function M.provider.spacer(n) return string.rep(" ", n or 1) end
+    lsp_client_names = function()
+        return function()
+            local buf_client_names = {}
+            for _, client in ipairs(vim.lsp.buf_get_clients(0)) do
+                table.insert(buf_client_names, client.name)
+                -- end
+            end
+            return table.concat(buf_client_names, ", ")
+        end
+    end,
 
-function M.conditional.git_available() return vim.b.gitsigns_head ~= nil end
+    treesitter_status = function()
+        local ts = vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()]
+        return (ts and next(ts)) and " 綠TS" or ""
+    end,
 
-function M.conditional.git_changed()
-    local git_status = vim.b.gitsigns_status_dict
-    return git_status and (git_status.added or 0) + (git_status.removed or 0) + (git_status.changed or 0) > 0
-end
+    spacer = function(n) return string.rep(" ", n or 1) end,
 
-function M.conditional.has_filetype()
-    return vim.fn.empty(vim.fn.expand "%:t") ~= 1 and vim.bo.filetype and vim.bo.filetype ~= ""
-end
+    lsp_project_name = function()
+        local project = vim.lsp.buf.list_workspace_folders()[1]
+        if not project then
+            return ""
+        end
+        project = require('core/utils').basename(project)
+        return ("[%s]"):format(project)
+    end,
+}
 
-function M.conditional.bar_width(n)
-    return function()
-        return (vim.opt.laststatus:get() == 3 and vim.opt.columns:get() or vim.fn.winwidth(0)) > (n or 80)
-    end
-end
+M.conditional = {
+    git_available = function() return vim.b.gitsigns_head ~= nil end,
+
+    git_changed = function()
+        local git_status = vim.b.gitsigns_status_dict
+        return git_status and (git_status.added or 0) + (git_status.removed or 0) + (git_status.changed or 0) > 0
+    end,
+
+    has_filetype = function()
+        return vim.fn.empty(vim.fn.expand "%:t") ~= 1 and vim.bo.filetype and vim.bo.filetype ~= ""
+    end,
+
+    bar_width = function(n)
+        return function()
+            return (vim.opt.laststatus:get() == 3 and vim.opt.columns:get() or vim.fn.winwidth(0)) > (n or 80)
+        end
+    end,
+
+    has_lsp_project = function() return M.provider.lsp_project_name() ~= "" end,
+}
 
 return M

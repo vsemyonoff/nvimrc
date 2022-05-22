@@ -27,6 +27,10 @@ return {
         "rcarriga/nvim-notify",
         config = pkg_config('notify'),
     },
+    { -- Better buffer closing
+        'famiu/bufdelete.nvim',
+        cmd = { "Bdelete", "Bwipeout" },
+    },
 
     --
     -- Indent

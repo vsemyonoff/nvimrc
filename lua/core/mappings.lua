@@ -23,7 +23,7 @@ M.setup = function()
 
     wk.register({ --
         ["<A-t>"] = { "<cmd>tabe<cr>", "New tab" },
-        ["<A-w>"] = { "<cmd>bd<cr>", "Close tab" },
+        ["<A-w>"] = { "<cmd>Bdelete<cr>", "Close tab" },
         ["<A-{>"] = { "<cmd>BufferLineCyclePrev<cr>", "Previous tab" },
         ["<A-}>"] = { "<cmd>BufferLineCycleNext<cr>", "Next tab" },
         ["<C-l>"] = { "<cmd>nohlsearch<cr>", "Clear highlights" },

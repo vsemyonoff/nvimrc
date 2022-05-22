@@ -2,6 +2,11 @@ local M = {}
 
 M.base_dir = "plugin"
 
+M.basename = function(path)
+    local name = string.gsub(path, "(.*/)(.*)", "%2")
+    return name
+end
+
 M.split_path = function(path)
     -- returns: { path, filename, extension }
     return path:match("(.-)([^\\/]-)%.?([^%.\\/]*)$")
