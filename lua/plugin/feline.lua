@@ -37,17 +37,6 @@ feline.setup({
                     enabled = conditional.has_lsp_project,
                 },
 
-                { -- Git branch
-                    provider = "git_branch",
-                    hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }),
-                    icon = " ",
-                    enabled = conditional.git_available,
-                },
-                {
-                    provider = provider.spacer(),
-                    enabled = conditional.git_available,
-                },
-
                 { -- File name
                     provider = { name = "file_info", opts = { type = "unique" } },
                 },
@@ -106,6 +95,17 @@ feline.setup({
                     hl = hl.fg("GitSignsAdd", { fg = C.green }),
                 },
                 { provider = provider.spacer() },
+
+                { -- Git branch
+                    provider = "git_branch",
+                    hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }),
+                    icon = " ",
+                    enabled = conditional.git_available,
+                },
+                {
+                    provider = provider.spacer(),
+                    enabled = conditional.git_available,
+                },
 
                 { provider = "line_percentage" },
                 { provider = provider.spacer() },
