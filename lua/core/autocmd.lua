@@ -27,7 +27,9 @@ M.setup = function()
 
     local yankGrp = augroup("YankHighlight", { clear = true })
     autocmd("TextYankPost", {
-        callback = function() vim.highlight.on_yank() end,
+        callback = function()
+            vim.highlight.on_yank()
+        end,
         group = yankGrp,
         desc = "Highlight yanked region",
     })
@@ -41,24 +43,32 @@ M.setup = function()
 
     local cursorGrp = augroup("CursorLine", { clear = true })
     autocmd("WinEnter", {
-        callback = function() vim.opt.cursorline = true end,
+        callback = function()
+            vim.opt.cursorline = true
+        end,
         group = cursorGrp,
         desc = "Enable 'cursorline' for active window",
     })
     autocmd("WinLeave", {
-        callback = function() vim.opt.cursorline = false end,
+        callback = function()
+            vim.opt.cursorline = false
+        end,
         group = cursorGrp,
         desc = "Disable 'cursorline' for inactive window",
     })
 
     local numbersMode = augroup("NumbersMode", { clear = true })
     autocmd("InsertEnter", {
-        callback = function() vim.opt.relativenumber = false end,
+        callback = function()
+            vim.opt.relativenumber = false
+        end,
         group = numbersMode,
         desc = "Show absolute line numbers in insert mode",
     })
     autocmd("InsertLeave", {
-        callback = function() vim.opt.relativenumber = true end,
+        callback = function()
+            vim.opt.relativenumber = true
+        end,
         group = numbersMode,
         desc = "Show relative line numbers in normal mode",
     })

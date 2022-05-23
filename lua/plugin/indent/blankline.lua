@@ -14,13 +14,10 @@ vim.g.indent_blankline_buftype_exclude = {
 }
 vim.g.indent_blankline_filetype_exclude = {
     "help",
-    "startify",
     "dashboard",
     "packer",
     "neogitstatus",
-    "NvimTree",
     "neo-tree",
-    "Trouble",
 }
 vim.g.indent_blankline_context_patterns = {
     "class",

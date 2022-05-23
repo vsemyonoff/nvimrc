@@ -12,7 +12,11 @@ cmp.setup({
         fields = { "abbr", "kind", "menu" },
         format = require('lspkind').cmp_format(),
     },
-    snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
+    snippet = {
+        expand = function(args)
+            luasnip.lsp_expand(args.body)
+        end,
+    },
     duplicates = {
         nvim_lsp = 1, --
         nvim_lua = 1,

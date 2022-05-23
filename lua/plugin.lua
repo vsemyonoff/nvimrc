@@ -19,11 +19,11 @@ return {
     { -- Popup API
         "nvim-lua/popup.nvim",
     },
-    { -- Neovim UI Enhancer
+    { -- Neovim UI enhancer
         "MunifTanjim/nui.nvim",
         module = "nui",
     },
-    { -- Notification Enhancer
+    { -- Notification enhancer
         "rcarriga/nvim-notify",
         config = pkg_config('notify'),
     },
@@ -45,7 +45,9 @@ return {
         config = pkg_config('indent/autosize'),
     },
 
+    --
     -- Treesitter
+    --
     {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
@@ -75,12 +77,6 @@ return {
         'williamboman/nvim-lsp-installer',
         requires = { 'neovim/nvim-lspconfig' },
         config = pkg_config('lsp'),
-    },
-    { -- Errors pane
-        'folke/trouble.nvim',
-        cmd = "TroubleToggle",
-        requires = { 'neovim/nvim-lspconfig', 'kyazdani42/nvim-web-devicons' },
-        config = pkg_config('trouble'),
     },
     -- { 'glepnir/lspsaga.nvim', config = pkg_config('lspsaga') },
     -- { 'kosayoda/nvim-lightbulb', config = pkg_config('lightbulb') },
@@ -139,7 +135,9 @@ return {
             'kyazdani42/nvim-web-devicons',
             'MunifTanjim/nui.nvim',
         },
-        setup = function() vim.g.neo_tree_remove_legacy_commands = true end,
+        setup = function()
+            vim.g.neo_tree_remove_legacy_commands = true
+        end,
         config = pkg_config('neotree'),
     },
     { -- Theme
@@ -154,10 +152,15 @@ return {
         'norcalli/nvim-colorizer.lua',
         config = pkg_config('colorizer'),
     },
-    { -- Tab line
-        'akinsho/bufferline.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = pkg_config('bufferline'),
+    -- { -- Tab line
+    --     'akinsho/bufferline.nvim',
+    --     requires = { 'kyazdani42/nvim-web-devicons' },
+    --     config = pkg_config('bufferline'),
+    -- },
+    {
+        'noib3/nvim-cokeline',
+        requires = 'kyazdani42/nvim-web-devicons',
+        config = pkg_config('cokeline'),
     },
     { -- Dashboard
         'glepnir/dashboard-nvim',
@@ -167,6 +170,12 @@ return {
         "feline-nvim/feline.nvim",
         after = "nvim-web-devicons",
         config = pkg_config('feline'),
+    },
+    { -- Input/select replacement
+        'stevearc/dressing.nvim',
+        after = "telescope.nvim",
+        requires = { 'MunifTanjim/nui.nvim' },
+        config = pkg_config('dressing'),
     },
 
     --
@@ -186,13 +195,17 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         after = "telescope.nvim",
         run = "make",
-        config = function() require("telescope").load_extension "fzf" end,
+        config = function()
+            require("telescope").load_extension "fzf"
+        end,
     },
     {
         'nvim-telescope/telescope-frecency.nvim',
         after = "telescope.nvim",
         requires = { 'tami5/sql.nvim' },
-        config = function() require("telescope").load_extension "frecency" end,
+        config = function()
+            require("telescope").load_extension "frecency"
+        end,
     },
 
     --

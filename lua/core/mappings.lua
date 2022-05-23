@@ -13,28 +13,32 @@ end
 
 M.setup = function()
     wk.register({
-        ["/"] = {
-            function() require("Comment.api").toggle_current_linewise() end,
-            "Comment",
-        },
+        ["/"] = { require("Comment.api").toggle_current_linewise, "Comment" },
         ["\\"] = { neotreeToggle, "NeoTree" },
         b = {
             name = "Build",
             N = { "<cmd>CMake create_project<cr>", "New CMake project" },
         },
-        d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
+        d = { utils.quickfix_toggle, "Quickfix toggle" },
         f = { name = "File", n = { "<cmd>enew<cr>", "New" } },
         g = { name = "Git", s = { "<cmd>Neogit<cr>", "Status/commit" } },
+        l = { name = "LSP", I = { "<cmd>LspInstallInfo<cr>", "LSP installer" } },
         o = { "<cmd>AerialToggle right<cr>", "Outline" },
         t = { "<cmd>ToggleTerm<cr>", "Terminal" },
     }, { prefix = "<leader>" })
 
     wk.register({ --
-        ["<A-t>"] = { "<cmd>tabe<cr>", "New tab" },
-        ["<A-w>"] = { "<cmd>Bdelete<cr>", "Close tab" },
-        ["<A-{>"] = { "<cmd>BufferLineCyclePrev<cr>", "Previous tab" },
-        ["<A-}>"] = { "<cmd>BufferLineCycleNext<cr>", "Next tab" },
-        ["<C-l>"] = { "<cmd>nohlsearch<cr>", "Clear highlights" },
+        -- Tabs
+        ["<a-t>"] = { "<cmd>enew<cr>", "New tab" },
+        ["<a-w>"] = { "<cmd>Bdelete<cr>", "Close tab" },
+        ["<a-{>"] = { "<plug>(cokeline-focus-prev)", "Previous tab" },
+        ["<a-}>"] = { "<plug>(cokeline-focus-next)", "Next tab" },
+        ["<c-l>"] = { "<cmd>nohlsearch<cr>", "Clear highlights" },
+        -- Windows
+        ["<a-left>"] = { "<c-w>h", "Window left" },
+        ["<a-down>"] = { "<c-w>j", "Window down" },
+        ["<a-up>"] = { "<c-w>k", "Window up" },
+        ["<a-right>>"] = { "<c-w>l", "Window right" },
     })
 
     wk.register({
@@ -47,7 +51,7 @@ M.setup = function()
     }, { mode = "v" })
 
     wk.register({ --
-        ["<C-esc>"] = { "<cmd>ToggleTerm<cr>", "Terminal close" },
+        ["<c-esc>"] = { "<cmd>ToggleTerm<cr>", "Terminal close" },
     }, { mode = "t" })
 end
 

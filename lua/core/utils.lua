@@ -2,6 +2,18 @@ local M = {}
 
 M.base_dir = "plugin"
 
+M.quickfix_enabled = false
+
+M.quickfix_toggle = function()
+    if M.quickfix_enabled then
+        M.quickfix_enabled = false
+        vim.cmd("cclose")
+    else
+        M.quickfix_enabled = true
+        vim.cmd("copen")
+    end
+end
+
 M.basename = function(path)
     local name = string.gsub(path, "(.*/)(.*)", "%2")
     return name
@@ -18,14 +30,18 @@ M.project_root = function()
     return root or ""
 end
 
-M.project_name = function() return M.basename(M.project_root()) end
+M.project_name = function()
+    return M.basename(M.project_root())
+end
 
 M.split_path = function(path)
     -- returns: { path, filename, extension }
     return path:match("(.-)([^\\/]-)%.?([^%.\\/]*)$")
 end
 
-local get_config = function(name) return ("%s/%s"):format(M.base_dir, name) end
+local get_config = function(name)
+    return ("%s/%s"):format(M.base_dir, name)
+end
 
 M.pkg_config = function(name)
     local fmt = "require('core/utils').include('%s')"
@@ -48,7 +64,9 @@ M.include = function(name)
     return dofile(filename)
 end
 
-M.pkg_include = function(name) return M.include(get_config(name)) end
+M.pkg_include = function(name)
+    return M.include(get_config(name))
+end
 
 local _map_impl = function(mode, lhs, rhs, opts)
     local options = { noremap = true, silent = true }
@@ -89,29 +107,73 @@ end
 -- +----------------------------------------------------------------+
 
 -- Global
-M.map = function(lhs, rhs, opts) _map_impl('', lhs, rhs, opts) end
-M.nmap = function(lhs, rhs, opts) _map_impl('n', lhs, rhs, opts) end
-M.mapi = function(lhs, rhs, opts) _map_impl('!', lhs, rhs, opts) end
-M.imap = function(lhs, rhs, opts) _map_impl('i', lhs, rhs, opts) end
-M.cmap = function(lhs, rhs, opts) _map_impl('c', lhs, rhs, opts) end
-M.vmap = function(lhs, rhs, opts) _map_impl('v', lhs, rhs, opts) end
-M.xmap = function(lhs, rhs, opts) _map_impl('x', lhs, rhs, opts) end
-M.smap = function(lhs, rhs, opts) _map_impl('s', lhs, rhs, opts) end
-M.omap = function(lhs, rhs, opts) _map_impl('o', lhs, rhs, opts) end
-M.tmap = function(lhs, rhs, opts) _map_impl('t', lhs, rhs, opts) end
-M.lmap = function(lhs, rhs, opts) _map_impl('l', lhs, rhs, opts) end
+M.map = function(lhs, rhs, opts)
+    _map_impl('', lhs, rhs, opts)
+end
+M.nmap = function(lhs, rhs, opts)
+    _map_impl('n', lhs, rhs, opts)
+end
+M.mapi = function(lhs, rhs, opts)
+    _map_impl('!', lhs, rhs, opts)
+end
+M.imap = function(lhs, rhs, opts)
+    _map_impl('i', lhs, rhs, opts)
+end
+M.cmap = function(lhs, rhs, opts)
+    _map_impl('c', lhs, rhs, opts)
+end
+M.vmap = function(lhs, rhs, opts)
+    _map_impl('v', lhs, rhs, opts)
+end
+M.xmap = function(lhs, rhs, opts)
+    _map_impl('x', lhs, rhs, opts)
+end
+M.smap = function(lhs, rhs, opts)
+    _map_impl('s', lhs, rhs, opts)
+end
+M.omap = function(lhs, rhs, opts)
+    _map_impl('o', lhs, rhs, opts)
+end
+M.tmap = function(lhs, rhs, opts)
+    _map_impl('t', lhs, rhs, opts)
+end
+M.lmap = function(lhs, rhs, opts)
+    _map_impl('l', lhs, rhs, opts)
+end
 
 -- Buffer local
-M.bmap = function(lhs, rhs, opts) _buf_map_impl('', lhs, rhs, opts) end
-M.bnmap = function(lhs, rhs, opts) _buf_map_impl('n', lhs, rhs, opts) end
-M.bmapi = function(lhs, rhs, opts) _buf_map_impl('!', lhs, rhs, opts) end
-M.bimap = function(lhs, rhs, opts) _buf_map_impl('i', lhs, rhs, opts) end
-M.bcmap = function(lhs, rhs, opts) _buf_map_impl('c', lhs, rhs, opts) end
-M.bvmap = function(lhs, rhs, opts) _buf_map_impl('v', lhs, rhs, opts) end
-M.bxmap = function(lhs, rhs, opts) _buf_map_impl('x', lhs, rhs, opts) end
-M.bsmap = function(lhs, rhs, opts) _buf_map_impl('s', lhs, rhs, opts) end
-M.bomap = function(lhs, rhs, opts) _buf_map_impl('o', lhs, rhs, opts) end
-M.btmap = function(lhs, rhs, opts) _buf_map_impl('t', lhs, rhs, opts) end
-M.blmap = function(lhs, rhs, opts) _buf_map_impl('l', lhs, rhs, opts) end
+M.bmap = function(lhs, rhs, opts)
+    _buf_map_impl('', lhs, rhs, opts)
+end
+M.bnmap = function(lhs, rhs, opts)
+    _buf_map_impl('n', lhs, rhs, opts)
+end
+M.bmapi = function(lhs, rhs, opts)
+    _buf_map_impl('!', lhs, rhs, opts)
+end
+M.bimap = function(lhs, rhs, opts)
+    _buf_map_impl('i', lhs, rhs, opts)
+end
+M.bcmap = function(lhs, rhs, opts)
+    _buf_map_impl('c', lhs, rhs, opts)
+end
+M.bvmap = function(lhs, rhs, opts)
+    _buf_map_impl('v', lhs, rhs, opts)
+end
+M.bxmap = function(lhs, rhs, opts)
+    _buf_map_impl('x', lhs, rhs, opts)
+end
+M.bsmap = function(lhs, rhs, opts)
+    _buf_map_impl('s', lhs, rhs, opts)
+end
+M.bomap = function(lhs, rhs, opts)
+    _buf_map_impl('o', lhs, rhs, opts)
+end
+M.btmap = function(lhs, rhs, opts)
+    _buf_map_impl('t', lhs, rhs, opts)
+end
+M.blmap = function(lhs, rhs, opts)
+    _buf_map_impl('l', lhs, rhs, opts)
+end
 
 return M

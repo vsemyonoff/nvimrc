@@ -16,6 +16,8 @@ local settings = {
     log_level = vim.log.levels.WARN,
 }
 
-M.setup = function() require('nvim-lsp-installer').setup(settings) end
+M.setup = function()
+    require('nvim-lsp-installer').setup(settings)
+end
 
 return M

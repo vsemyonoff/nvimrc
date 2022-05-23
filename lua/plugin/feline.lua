@@ -9,21 +9,15 @@ local feline = require('feline')
 
 -- stylua: ignore
 feline.setup({
-    disable = {
-        filetypes = {
-            "^NvimTree$",
-            "^neo%-tree$",
-            "^dashboard$",
-            "^Outline$",
-            "^aerial$",
-        },
-    },
+    disable = { filetypes = { "^neo%-tree$", "^dashboard$", "^aerial$" } },
     theme = hl.group("StatusLine", { fg = C.fg, bg = C.bg_1 }),
     components = {
         active = {
             {
                 { -- Mode
-                    provider = function() return (" %s "):format(vim.fn.mode()):upper() end,
+                    provider = function()
+                        return (" %s "):format(vim.fn.mode()):upper()
+                    end,
                     hl = hl.mode(),
                 },
                 { provider = provider.spacer() },
@@ -90,6 +84,13 @@ feline.setup({
                 },
                 { provider = provider.spacer() },
 
+                { -- Treesitter
+                    provider = provider.treesitter_status,
+                    enabled = conditional.bar_width,
+                    hl = hl.fg("GitSignsAdd", { fg = C.green }),
+                },
+                { provider = provider.spacer() },
+
                 { -- CMake progreee
                     provider = provider.cmake_build_progress,
                     enabled = conditional.cmake_is_building,
@@ -98,13 +99,6 @@ feline.setup({
                     provider = provider.spacer(),
                     enabled = conditional.cmake_is_building,
                 },
-
-                { -- Treesitter
-                    provider = provider.treesitter_status,
-                    enabled = conditional.bar_width,
-                    hl = hl.fg("GitSignsAdd", { fg = C.green }),
-                },
-                { provider = provider.spacer() },
 
                 { -- Git branch
                     provider = "git_branch",

@@ -1,8 +1,11 @@
-local theme = require('core/utils').include('config').ui.theme
 local M = { hl = {}, provider = {}, conditional = {} }
+
+local theme = require('core/utils').include('config').ui.theme
 local C = require('nightfox/palette').load(theme)
 
-local function hl_by_name(name) return string.format("#%06x", vim.api.nvim_get_hl_by_name(name.group, true)[name.prop]) end
+local function hl_by_name(name)
+    return string.format("#%06x", vim.api.nvim_get_hl_by_name(name.group, true)[name.prop])
+end
 
 local function hl_prop(group, prop)
     local status_ok, color = pcall(hl_by_name, { group = group, prop = prop })
@@ -89,7 +92,9 @@ M.provider = {
         return (ts and next(ts)) and " 綠TS" or ""
     end,
 
-    spacer = function(n) return string.rep(" ", n or 1) end,
+    spacer = function(n)
+        return string.rep(" ", n or 1)
+    end,
 
     project_name = function()
         local project = require('core/utils').project_name()
@@ -108,11 +113,15 @@ M.provider = {
         return ("[%s]"):format(project)
     end,
 
-    cmake_build_progress = function() return ("Build progress: %s"):format(vim.b.progress or 0) end,
+    cmake_build_progress = function()
+        return ("Build progress: %s"):format(vim.b.progress or 0)
+    end,
 }
 
 M.conditional = {
-    git_available = function() return vim.b.gitsigns_head ~= nil end,
+    git_available = function()
+        return vim.b.gitsigns_head ~= nil
+    end,
 
     git_changed = function()
         local git_status = vim.b.gitsigns_status_dict
@@ -129,9 +138,13 @@ M.conditional = {
         end
     end,
 
-    has_project = function() return M.provider.project_name() ~= "" end,
+    has_project = function()
+        return M.provider.project_name() ~= ""
+    end,
 
-    cmake_is_building = function() return vim.b.building or false end,
+    cmake_is_building = function()
+        return vim.b.building or false
+    end,
 }
 
 return M

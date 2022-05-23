@@ -5,10 +5,14 @@ SCRIPT_NAME="$(basename ${0})"
 
 # Repo packages
 PACKAGES=(
+    fd
     go
+    jq
+    nodejs-lts-fermium
     npm
     python-pip
     python-pynvim
+    ripgrep
 )
 
 # AUR packages

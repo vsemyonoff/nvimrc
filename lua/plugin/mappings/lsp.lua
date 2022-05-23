@@ -5,11 +5,7 @@ M.setup = function(client, bufnr)
     local bvmap = require('core/utils').bvmap
 
     require('which-key').register({
-        l = {
-            name = "LSP",
-            i = { "<cmd>LspInfo<cr>", "LSP information" },
-            I = { "<cmd>LspInstallInfo<cr>", "LSP installer" },
-        },
+        l = { name = "LSP", i = { "<cmd>LspInfo<cr>", "LSP information" } },
     }, { prefix = "<leader>", buffer = bufnr })
 
     if client.server_capabilities.hoverProvider then
@@ -43,7 +39,7 @@ M.setup = function(client, bufnr)
     end
 
     if client.server_capabilities.referencesProvider then
-        bnmap("gr", "<cmd>Trouble lsp_references<cr>", {
+        bnmap("gr", require('telescope/builtin').lsp_references, {
             desc = "References of current symbol",
         })
     end
@@ -58,9 +54,9 @@ M.setup = function(client, bufnr)
         })
     end
 
-    bnmap("<leader>lD", function() require("telescope.builtin").diagnostics() end, {
-        desc = "Diagnostics",
-    })
+    bnmap("<leader>ld", function()
+        require("telescope.builtin").diagnostics()
+    end, { desc = "Diagnostics" })
 end
 
 return M

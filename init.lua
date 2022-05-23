@@ -3,6 +3,9 @@ local include = utils.include
 local config = include('config')
 local stdpath = vim.fn.stdpath
 
+-- Default language
+vim.cmd({ cmd = "language", args = { "en_US.UTF-8" } })
+
 local force_config = function()
     local border_style = config.ui.border_style or "rounded"
 
@@ -18,9 +21,9 @@ local force_config = function()
         local avail, packer_util = pcall(require, "packer/util")
         if avail then
             local display = {
-                open_fn = function() return packer_util.float({
-                    border = border_style,
-                }) end,
+                open_fn = function()
+                    return packer_util.float({ border = border_style })
+                end,
             }
             user_config.display = vim.tbl_deep_extend("keep", user_config.display, display)
         end

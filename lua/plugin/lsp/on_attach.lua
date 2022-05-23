@@ -30,7 +30,9 @@ M.lsp_format_on_save = function(bufnr)
     local lsp_fmt = augroup("lsp_document_format", { clear = true })
     autocmd("BufWritePre", {
         buffer = bufnr,
-        callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+        callback = function()
+            vim.lsp.buf.format({ bufnr = bufnr })
+        end,
         group = lsp_fmt,
         desc = "Format buffer before save",
     })

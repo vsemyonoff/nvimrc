@@ -17,7 +17,7 @@ M.setup = function()
             d = { "<cmd>CMake build_and_debug<cr>", "Debug target" },
             r = { "<cmd>CMake build_and_run<cr>", "Run target" },
             t = { "<cmd>CMake select_target<cr>", "Select target" },
-            ["<esc>"] = { "<cmd>CMake cancel<cr>", "Stop current build" },
+            ["<C-esc>"] = { "<cmd>CMake cancel<cr>", "Stop current build" },
         },
     }, { prefix = "<leader>", buffer = bufnr })
 end

@@ -5,6 +5,7 @@ local M = {
         servers = {
             "bashls", -- Bash
             "clangd", -- C/C++
+            "cmake",
             "efm", -- Formatter
             "sumneko_lua", -- Lua
         },

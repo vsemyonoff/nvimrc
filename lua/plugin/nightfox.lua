@@ -15,9 +15,10 @@ local groups = {
         GitSignsAdd = { bg = "bg0" },
         GitSignsChange = { bg = "bg0" },
         GitSignsDelete = { bg = "bg0" },
-        -- Bufferline
-        BufferLineTabSelected = { style = "bold" },
-        BufferLineBufferSelected = { style = "bold" },
+        -- neo-tree
+        NeoTreeNormal = { bg = "bg1" },
+        NeoTreeNormalNC = { bg = "bg0" },
+
     },
 }
 
