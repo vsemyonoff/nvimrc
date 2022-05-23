@@ -7,6 +7,19 @@ M.basename = function(path)
     return name
 end
 
+M.project_root = function()
+    local root = "" -- empty by default
+    local p_is, p = pcall(require, 'project_nvim/project')
+    if not p_is then
+        root = vim.lsp.buf.list_workspace_folders()[1]
+    else
+        root = p.get_project_root()
+    end
+    return root or ""
+end
+
+M.project_name = function() return M.basename(M.project_root()) end
+
 M.split_path = function(path)
     -- returns: { path, filename, extension }
     return path:match("(.-)([^\\/]-)%.?([^%.\\/]*)$")

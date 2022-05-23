@@ -1,10 +1,14 @@
 local M = {}
 
+local utils = require('core/utils')
 local wk = require('which-key')
 
 local neotreeToggle = function()
-    local root = vim.lsp.buf.list_workspace_folders()[1]
-    require('neo-tree/command').execute({ toggle = true, dir = root or "~" })
+    local root = utils.project_root()
+    if root == "" then
+        root = "~"
+    end
+    require('neo-tree/command').execute({ toggle = true, dir = root })
 end
 
 M.setup = function()
@@ -14,6 +18,10 @@ M.setup = function()
             "Comment",
         },
         ["\\"] = { neotreeToggle, "NeoTree" },
+        b = {
+            name = "Build",
+            N = { "<cmd>CMake create_project<cr>", "New CMake project" },
+        },
         d = { "<cmd>TroubleToggle<cr>", "Diagnostics" },
         f = { name = "File", n = { "<cmd>enew<cr>", "New" } },
         g = { name = "Git", s = { "<cmd>Neogit<cr>", "Status/commit" } },

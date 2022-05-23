@@ -74,16 +74,6 @@ M.setup = function()
         desc = "Trim whitespaces before save",
     })
 
-    autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-        callback = function()
-            if vim.fn.mode() ~= 'c' then
-                vim.cmd("checktime")
-            end
-        end,
-        group = autoHelpers,
-        desc = "Reload modified files",
-    })
-
     autocmd("BufReadPost", {
         callback = function()
             if vim.fn.line("'\"") and -- mark is present

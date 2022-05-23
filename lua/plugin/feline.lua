@@ -29,13 +29,13 @@ feline.setup({
                 { provider = provider.spacer() },
 
                 { -- Project name
-                    provider = provider.lsp_project_name,
+                    provider = provider.project_name,
                     hl = hl.fg("Conditional", { fg = C.purple_1, style = "bold" }),
-                    enabled = conditional.has_lsp_project,
+                    enabled = conditional.has_project,
                 },
                 {
                     provider = provider.spacer(),
-                    enabled = conditional.has_lsp_project,
+                    enabled = conditional.has_project,
                 },
 
                 { -- File name
@@ -89,6 +89,15 @@ feline.setup({
                     icon = "  ",
                 },
                 { provider = provider.spacer() },
+
+                { -- CMake progreee
+                    provider = provider.cmake_build_progress,
+                    enabled = conditional.cmake_is_building,
+                },
+                {
+                    provider = provider.spacer(),
+                    enabled = conditional.cmake_is_building,
+                },
 
                 { -- Treesitter
                     provider = provider.treesitter_status,

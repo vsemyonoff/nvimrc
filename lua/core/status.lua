@@ -91,6 +91,14 @@ M.provider = {
 
     spacer = function(n) return string.rep(" ", n or 1) end,
 
+    project_name = function()
+        local project = require('core/utils').project_name()
+        if project ~= "" then
+            return ("[%s]"):format(project)
+        end
+        return project
+    end,
+
     lsp_project_name = function()
         local project = vim.lsp.buf.list_workspace_folders()[1]
         if not project then
@@ -99,6 +107,8 @@ M.provider = {
         project = require('core/utils').basename(project)
         return ("[%s]"):format(project)
     end,
+
+    cmake_build_progress = function() return ("Build progress: %s"):format(vim.b.progress or 0) end,
 }
 
 M.conditional = {
@@ -119,7 +129,9 @@ M.conditional = {
         end
     end,
 
-    has_lsp_project = function() return M.provider.lsp_project_name() ~= "" end,
+    has_project = function() return M.provider.project_name() ~= "" end,
+
+    cmake_is_building = function() return vim.b.building or false end,
 }
 
 return M
