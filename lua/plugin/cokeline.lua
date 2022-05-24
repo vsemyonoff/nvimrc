@@ -10,7 +10,12 @@ local warnings_fg = get_hex('DiagnosticWarn', 'fg')
 local min_buffer_width = 25
 
 local components = {
-    space = { --
+    space0 = { --
+        text = ' ',
+        truncation = { priority = 1 },
+    },
+
+    space1 = { --
         text = ' ',
         truncation = { priority = 1 },
     },
@@ -163,11 +168,12 @@ require('cokeline').setup({
     components = {
         components.left_half,
         left_padding,
+        components.space0,
         components.devicon,
         components.index,
         components.unique_prefix,
         components.filename,
-        components.space,
+        components.space1,
         right_padding,
         components.close_or_unsaved,
         components.right_half,

@@ -114,7 +114,7 @@ M.provider = {
     end,
 
     cmake_build_progress = function()
-        return ("Build progress: %s"):format(vim.b.progress or 0)
+        return ("Build progress: %s"):format(vim.g.cmake_build_progress or 0)
     end,
 }
 
@@ -143,7 +143,7 @@ M.conditional = {
     end,
 
     cmake_is_building = function()
-        return vim.b.building or false
+        return vim.g.cmake_is_building or false
     end,
 }
 
