@@ -7,9 +7,9 @@ cmake.setup({
     build_dir = tostring(path:new('{cwd}', 'build', '{build_type}')),
     default_projects_path = tostring(path:new(vim.loop.os_homedir(), 'Sources')),
     configure_args = { '-D', 'CMAKE_EXPORT_COMPILE_COMMANDS=1' },
-    build_args = { '-j8' },
+    build_args = { '-- -j8' },
     on_build_output = function(line)
-        local match = string.match(line, "(%[.*%])")
+        local match = string.match(line or "", "(%[.*%])")
         if match then
             vim.b.progress = string.gsub(match, "%%", "%%%%")
         end
