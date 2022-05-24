@@ -212,6 +212,12 @@ return {
     -- Git integration
     --
     {
+        'sindrets/diffview.nvim',
+        module = "diffview",
+        requires = 'nvim-lua/plenary.nvim',
+        config = pkg_config('diffview'),
+    },
+    {
         'lewis6991/gitsigns.nvim',
         event = { "BufRead", "BufNewFile" },
         requires = { 'nvim-lua/plenary.nvim' },
@@ -220,7 +226,7 @@ return {
     {
         'TimUntersberger/neogit',
         cmd = "Neogit",
-        requires = { 'nvim-lua/plenary.nvim' },
+        requires = { 'nvim-lua/plenary.nvim', 'sindrets/diffview.nvim' },
         config = pkg_config('neogit'),
     },
 
