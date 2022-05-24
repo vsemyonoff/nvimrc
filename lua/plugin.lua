@@ -243,7 +243,7 @@ return {
     -- CMake integration
     --
     {
-        'Shatur/neovim-cmake',
+        'vsemyonoff/neovim-cmake',
         cmd = { "CMake", "CMakeBuild", "CMakeClean" },
         requires = { 'mfussenegger/nvim-dap', 'nvim-lua/plenary.nvim' },
         config = pkg_config('cmake'),

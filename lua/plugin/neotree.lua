@@ -5,28 +5,36 @@ require('neo-tree').setup({
     popup_border_style = include('config').ui.border_style or "rounded",
     enable_diagnostics = false,
     default_component_configs = {
-        indent = { padding = 0, with_expanders = false },
+        indent = { padding = 1, with_expanders = false },
         icon = {
             folder_closed = "",
             folder_open = "",
             folder_empty = "",
             default = "",
         },
+        modified = { symbol = "" },
         git_status = {
             symbols = {
-                added = "",
-                deleted = "",
-                modified = "",
-                renamed = "➜",
-                untracked = "★",
-                ignored = "◌",
-                unstaged = "✗",
-                staged = "✓",
-                conflict = "",
+                added = "",
+                deleted = "",
+                modified = "",
+                renamed = "",
+                untracked = "",
+                ignored = "",
+                unstaged = "",
+                staged = "",
+                conflict = "",
             },
         },
     },
-    window = { position = "left", mappings = { ["o"] = "open" } },
+    window = {
+        position = "left",
+        mappings = {
+            ["<left>"] = "close_node",
+            ["<right>"] = "open",
+            ["<tab>"] = "toggle_node",
+        },
+    },
     filesystem = {
         filtered_items = {
             visible = false,

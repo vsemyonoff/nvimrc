@@ -18,7 +18,6 @@ local groups = {
         -- neo-tree
         NeoTreeNormal = { bg = "bg1" },
         NeoTreeNormalNC = { bg = "bg0" },
-
     },
 }
 
