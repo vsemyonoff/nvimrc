@@ -1,9 +1,7 @@
---- @class Core.Neovide
+-- Core
+--- @class Neovide
 --- @field public setup fun()
 local M = {}
-
-local augroup = vim.api.nvim_create_augroup
-local autocmd = vim.api.nvim_create_autocmd
 
 local defaults = {
   confirm_quit = true,
@@ -61,12 +59,6 @@ local update_globals = function()
   end
 end
 
-M.setup = function()
-  -- Reload globals on config updated event
-  Core:on(Core.Signal.CoreSetupHook, update_globals)
-  update_globals()
-end
-
 local function set_ime(args)
   if args.event:match("Enter$") then
     vim.g.neovide_input_ime = true
@@ -75,29 +67,41 @@ local function set_ime(args)
   end
 end
 
-local ime_input = augroup("CoreImeInput", { clear = true })
-autocmd({ "InsertEnter", "InsertLeave" }, {
-  pattern = "*",
-  callback = set_ime,
-  group = ime_input,
-  desc = "Toggle `insert mode` IME input",
-})
-autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
-  pattern = "[/\\?]",
-  callback = set_ime,
-  group = ime_input,
-  desc = "Toggle `command line mode` IME input",
-})
+M.setup = function()
+  local augroup = vim.api.nvim_create_augroup
+  local autocmd = vim.api.nvim_create_autocmd
+  local ime_input = augroup("CoreImeInput", { clear = true })
 
-local map = Core.map
-map("<A-+>", function()
-  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
-end, "Increase font size")
-map("<A-_>", function()
-  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
-end, "Decrease font size")
-map("<C-0>", function()
-  vim.g.neovide_scale_factor = 1
-end, "Normal font size")
+  autocmd({ "InsertEnter", "InsertLeave" }, {
+    pattern = "*",
+    callback = set_ime,
+    group = ime_input,
+    desc = "Toggle `insert mode` IME input",
+  })
+  autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
+    pattern = "[/\\?]",
+    callback = set_ime,
+    group = ime_input,
+    desc = "Toggle `command line mode` IME input",
+  })
+
+  local map = Core.map
+  map("<C-=>", function()
+    -- vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
+    vim.cmd("GUIFontSizeUp")
+  end, "Increase font size")
+  map("<C-->", function()
+    -- vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
+    vim.cmd("GUIFontSizeDown")
+  end, "Decrease font size")
+  map("<C-0>", function()
+    -- vim.g.neovide_scale_factor = 1
+    vim.cmd("GUIFontSizeSet")
+  end, "Default font size")
+
+  -- Reload globals on config updated event
+  Core:on(Core.Signal.CoreSetupHook, update_globals)
+  update_globals()
+end
 
 return M

@@ -1,5 +1,5 @@
 return {
-  -- diagnostic = { update_in_insert = true },
+  diagnostic = { update_in_insert = true },
 
   system = {
     lang = "en_US.UTF-8",
@@ -7,11 +7,17 @@ return {
   },
 
   ui = {
-    font = "CodeNewRoman Nerd Font Mono:h12",
-    -- font = "RobotoMono Nerd Font Mono:h8:b",
-    -- font = "RobotoMono Nerd Font Mono:h10",
+    -- font = { name = "RobotoMono Nerd Font",     size = 11 },
+    -- font = { name = "CodeNewRoman Nerd Font",   size = 11 },
+    font = { name = "JetBrainsMono Nerd Font", size = 11 },
     nerd_font = true,
-    --theme = "github_dark_dimmed",
-    theme = "tokyonight",
+    theme = {
+      name = "catppuccin",
+      -- flavor = "mocha",
+      url = "catppuccin/nvim",
+      opts = {
+        dim_inactive = { enabled = true },
+      },
+    },
   },
 }

@@ -1,16 +1,18 @@
+local api, cmd, opt, uv = vim.api, vim.cmd, vim.opt_local, vim.uv or vim.loop
 local augroup = function(name)
-  return vim.api.nvim_create_augroup("Core" .. name, { clear = true })
+  return api.nvim_create_augroup("Core" .. name, { clear = true })
 end
-local autocmd = vim.api.nvim_create_autocmd
+local autocmd = api.nvim_create_autocmd
 
-autocmd("User", {
-  pattern = "LazyReload",
-  callback = function()
-    vim.notify("Modules reloaded")
-  end,
-  group = augroup("lazy_reload"),
-  desc = "Lazy modules reload handler",
-})
+-- Debug
+-- autocmd("User", {
+--   pattern = "LazyReload",
+--   callback = function()
+--     dt("Modules reloaded")
+--   end,
+--   group = augroup("lazy_reload"),
+--   desc = "Lazy modules reload handler",
+-- })
 
 autocmd("FileType", {
   callback = function(args)
@@ -18,6 +20,7 @@ autocmd("FileType", {
     if present then
       if type(handler.setup) == "function" then
         handler.setup(args)
+        dt("match detected")
       end
     end
   end,
@@ -28,16 +31,16 @@ autocmd("FileType", {
 local term_group = augroup("Terminal")
 autocmd("TermOpen", {
   callback = function()
-    vim.opt_local.number = false
-    vim.opt_local.relativenumber = false
-    vim.opt_local.signcolumn = "no"
+    opt.number = false
+    opt.relativenumber = false
+    opt.signcolumn = "no"
   end,
   group = term_group,
   desc = "Disable UI elements in terminal",
 })
 autocmd("TermOpen", {
   callback = function()
-    vim.cmd.startinsert()
+    cmd.startinsert()
   end,
   group = term_group,
   desc = "Start insert mode in new terminal",
@@ -46,14 +49,14 @@ autocmd("TermOpen", {
 local cursor_group = augroup("CursorLine")
 autocmd("WinEnter", {
   callback = function()
-    vim.opt_local.cursorline = true
+    opt.cursorline = true
   end,
   group = cursor_group,
   desc = "Enable 'cursorline' for active window",
 })
 autocmd("WinLeave", {
   callback = function()
-    vim.opt_local.cursorline = false
+    opt.cursorline = false
   end,
   group = cursor_group,
   desc = "Disable 'cursorline' for inactive window",
@@ -65,7 +68,7 @@ autocmd("InsertEnter", {
     if Core.service_buf(event.buf) then
       return
     end
-    vim.opt_local.relativenumber = false
+    opt.relativenumber = false
   end,
   group = numbers_group,
   desc = "Show absolute line numbers in insert mode",
@@ -75,7 +78,7 @@ autocmd("InsertLeave", {
     if Core.service_buf(event.buf) then
       return
     end
-    vim.opt_local.relativenumber = true
+    opt.relativenumber = true
   end,
   group = numbers_group,
   desc = "Show relative line numbers in normal mode",
@@ -83,11 +86,20 @@ autocmd("InsertLeave", {
 
 local auto_helpers = augroup("AutoHelpers")
 autocmd("BufWritePre", {
+  callback = function()
+    local save = vim.fn.winsaveview()
+    vim.cmd([[keeppatterns %s/\s\+$//e]])
+    vim.fn.winrestview(save)
+  end,
+  group = auto_helpers,
+  desc = "Trim trailing whitespaces before save",
+})
+autocmd("BufWritePre", {
   callback = function(event)
     if event.match:match("^%w%w+:[\\/][\\/]") then
       return
     end
-    local file = vim.uv.fs_realpath(event.match) or event.match
+    local file = uv.fs_realpath(event.match) or event.match
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
   group = auto_helpers,
@@ -100,9 +112,11 @@ autocmd("FileType", {
     end
     vim.bo[event.buf].buflisted = false
     Core.bmap("<esc>", function()
-      vim.cmd.close()
-      pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
-    end, "Close buffer")
+      if #api.nvim_tabpage_list_wins(0) > 1 then
+        cmd.close()
+      end
+      pcall(api.nvim_buf_delete, event.buf, { force = true })
+    end, "Close service buffer")
   end,
   group = auto_helpers,
   desc = "Close service buffers with <esc>",

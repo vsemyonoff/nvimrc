@@ -1,7 +1,9 @@
 return {
   "snacks.nvim",
+  optional = true,
   opts = {
     dashboard = {
+      enabled = true,
       preset = {
         keys = {
           { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },

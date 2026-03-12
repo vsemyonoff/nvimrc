@@ -1,23 +1,19 @@
 local cmd, map, unmap = vim.cmd, Core.bind, vim.keymap.del
 
----- `;` for command mode
---map({ "n", "v" }, ";", ":", "Command mode", { remap = true, silent = false })
+-- `;` for command mode
+map({ "n", "v" }, ";", ":", "Command mode", { remap = true, silent = false })
 
--- disable macros recording
+-- Disable macros recording
 map({ "n", "v" }, "q", "<nop>", nil)
+
+-- Redo
+map({ "n", "v" }, "U", cmd.redo, "Redo", { remap = true })
 
 -- Folds Open/Close <ctrl>+arrow keys
 map("n", "<c-up>", "zM", "Close all folds")
 map("n", "<c-down>", "zR", "Open all folds")
 map("n", "<c-left>", "zc", "Close fold")
 map("n", "<c-right>", "zo", "Open fold")
-
--- Clear search, diff update and redraw
-map({ "n", "v" }, "<c-l>", function()
-  cmd.nohlsearch()
-  cmd.diffupdate()
-  cmd.normal({ "<c-l>", bang = true })
-end, "Clear hlsearch / Diff Update / Redraw")
 
 -- Comment block
 pcall(unmap, "v", "gc") -- clear default `gc` mapping
@@ -59,12 +55,10 @@ map({ "n", "v" }, "<a-}>", cmd.bnext, "Next buffer")
 -- Move Lines
 map("n", "<s-down>", "<cmd>move .+1<cr>==", "Move line down")
 map("n", "<s-up>", "<cmd>move .-2<cr>==", "Move line up")
-map("i", "<s-down>", "<cmd>move .+1<cr><esc>==gi", "Move line down")
-map("i", "<s-up>", "<cmd>move .-2<cr><esc>==gi", "Move line up")
+-- map("i", "<s-down>", "<cmd>move .+1<cr><esc>==gi", "Move line down")
+-- map("i", "<s-up>", "<cmd>move .-2<cr><esc>==gi", "Move line up")
 map("v", "<s-down>", ":<c-u>'<,'>move '>+1<cr>gv=gv", "Move block down")
 map("v", "<s-up>", ":<c-u>'<,'>move '<-2<cr>gv=gv", "Move block up")
---map("v", "<", "<gv", "Move block left")
---map("v", ">", ">gv", "Move block right")
 
 -- Quit all
 map({ "n", "v" }, "<c-c><-c-c>", cmd.qall, "Quit all")

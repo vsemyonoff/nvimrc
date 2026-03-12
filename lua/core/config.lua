@@ -39,6 +39,10 @@ local icons = {
 
 --- System options
 --- @class SystemOpts
+--- @field lang string
+--- @field leader string
+--- @field localleader string
+--- @field tools table<string>
 local system = {
   lang = vim.env.LANG or "C.UTF-8", -- System locale name
   leader = " ", -- Leader key
@@ -46,14 +50,37 @@ local system = {
   tools = vim.empty_dict(), -- Tools to be installed by `Mason`
 }
 
+--- @class Bounds
+--- @field max integer
+--- @field min integer
+
+--- @class FontOpts
+--- @field name string
+--- @field size integer
+--- @field inc integer
+--- @field bounds Bounds
+
+--- @class ThemeOpts
+--- @field name string
+--- @field flavor string|nil
+--- @field url string
+--- @field opts table<any>
+
 --- User interface options
 --- @class UiOpts
+--- @field font FontOpts
+--- @field theme ThemeOpts
+--- @field border_style string
+--- @field nerd_font boolean
+--- @field neovide table<any>
+
+--- @type UiOpts
 local ui = {
-  neovide = vim.empty_dict(),
+  theme = { name = "habamax", flavor = nil, url = "/usr/share/nvim/runtime/colors", opts = vim.empty_dict() },
+  font = { name = "monospace", size = 10, inc = 1, bounds = { max = 18, min = 8 } },
   border_style = "rounded", -- none, single, double, rounded, solid, shadow
-  font = "monospace:h10",
   nerd_font = false,
-  theme = "habamax",
+  neovide = vim.empty_dict(),
 }
 
 --- @type DiagOpts

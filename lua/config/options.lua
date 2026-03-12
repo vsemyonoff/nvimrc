@@ -17,39 +17,21 @@ set.confirm = true
 set.copyindent = true -- Copy the previous indentation on autoindenting
 set.cursorline = true -- Highlight the text line of the cursor
 set.expandtab = true -- Enable the use of space in tab
-set.fillchars = {
-  foldopen = "",
-  foldclose = "",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
-}
-set.foldexpr = "v:lua.vim.treesitter.foldexpr()"
--- -- set.foldexpr = "v:lua.require'core.utils.ui'.foldexpr()"
-set.foldlevel = 99
-set.foldlevelstart = 1
--- set.foldmethod = "expr"
+set.foldlevelstart = 5
 set.foldtext = "v:lua.require'core.utils.ui'.foldtext()"
--- set.formatexpr = "v:lua.require'core.utils'.format.formatexpr()"
-set.formatoptions = "jcroqlnt" -- tcqj
-set.grepformat = "%f:%l:%c:%m"
-set.grepprg = "rg --vimgrep"
 set.history = 100 -- Number of commands to remember in a history table
 set.ignorecase = true -- Case insensitive searching
-set.inccommand = "nosplit"
-set.jumpoptions = "view"
 set.langmap = string.format("%s;%s", ru, en)
 set.laststatus = 3
-set.lazyredraw = false
+-- set.lazyredraw = false
 set.linebreak = true
+set.list = false
 set.listchars = "tab:▹▹,trail:·,extends:▸,precedes:◂,eol:↵,nbsp:▬"
 set.matchpairs = { "(:)", "{:}", "[:]", "<:>" }
 set.mouse = "a" -- Enable mouse support
 set.number = true -- Show numberline
 set.numberwidth = 4
 set.preserveindent = true -- Preserve indent structure as much as possible
-set.pumheight = 10 -- Height of the pop up menu
 set.relativenumber = true -- Show relative numberline
 set.ruler = false
 set.scrolloff = 8 -- Number of lines to keep above and below the cursor
@@ -90,9 +72,6 @@ set.virtualedit = "all" -- "block"
 set.wildmode = "longest:full,full"
 set.wrap = true -- Disable wrapping of lines longer than the width of window
 set.writebackup = false -- Disable making a backup before overwriting a file
-
--- Fix markdown indentation settings
-g.markdown_recommended_style = 0
 
 -- Leader keys
 g.mapleader = Core.config.system.leader

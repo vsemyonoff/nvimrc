@@ -7,9 +7,9 @@ local Event = require("core.utils.event")
 local M = setmetatable(require("core.utils.bind"), Event)
 
 --- Constructor
---- @return Utils
+--- @return Utils|Event
 function M:new()
-  --- @type Utils
+  --- @type Utils|Event
   local instance = setmetatable(Event:new(), self)
   self.__index = self
 

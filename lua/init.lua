@@ -24,18 +24,18 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins" },
   },
+  --- @type table<any>
   dev = {
     path = "~/Sources",
     patterns = {}, -- For example {"folke"} to use local plugin version
     fallback = false, -- Fallback to git when local plugin doesn't exist
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { Core.config.ui.theme.name, "habamax" } },
   checker = { enabled = true, notify = false },
-  --  change_detection = {
-  --    -- automatically check for config file changes and reload the ui
-  --    enabled = true,
-  --    notify = false, -- get a notification when changes are found
-  --  },
+  change_detection = {
+    enabled = true,
+    notify = false,
+  },
   ui = {
     border = Core.config.ui.border_style,
     title = " Lazy Plgugin Mnager ",
