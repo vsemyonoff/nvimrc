@@ -9,7 +9,7 @@ return {
   ui = {
     -- font = { name = "RobotoMono Nerd Font",     size = 11 },
     -- font = { name = "CodeNewRoman Nerd Font",   size = 11 },
-    font = { name = "JetBrainsMono Nerd Font", size = 11 },
+    font = { name = "JetBrainsMono Nerd Font Mono", size = 12 },
     nerd_font = true,
     theme = {
       name = "catppuccin",
